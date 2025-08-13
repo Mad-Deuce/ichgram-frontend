@@ -1,0 +1,5 @@
+npx generate-react-cli component Container
+npx generate-react-cli component SomeMOdule --type=module
+npx generate-react-cli component SomePage --type=page
+npx generate-react-cli component Navigation --type=nav
+npx generate-react-cli component SomeIcon --type=icon
