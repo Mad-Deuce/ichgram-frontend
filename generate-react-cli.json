@@ -52,7 +52,7 @@
         "component": "./generate-react-cli/icon/TemplateName.jsx"
       },
       "path": "src/shared/components/icons",
-      "withStyle": true,
+      "withStyle": false,
       "withTest": false,
       "withStory": false,
       "withLazy": false,
