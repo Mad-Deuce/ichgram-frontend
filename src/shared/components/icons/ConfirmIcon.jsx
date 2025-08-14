@@ -1,38 +1,36 @@
-export default function ConfirmIcon({className}) {
+export default function ConfirmIcon({ className }) {
   return (
+    <svg
+      width="100"
+      height="100"
+      viewBox="0 0 100 100"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <defs id="Patterns_And_Gradients">
+        <linearGradient id="Gradient1" gradientTransform="rotate(45 0.5 0.5)">
+          <stop offset="0" stop-color="#F7D44C" stop-opacity="1" />
+          <stop offset="0.5" stop-color="#c00000" stop-opacity="1" />
+          <stop offset="1" stop-color="#7938E9" stop-opacity="1" />
+        </linearGradient>
+      </defs>
 
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
-		xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" width="6.75306in" height="6.75306in"
-		viewBox="0 0 486.221 486.22" xml:space="preserve" color-interpolation-filters="sRGB" class="st3">
-	<v:documentProperties v:langID="1058" v:metric="true" v:viewMarkup="false"/>
+      <circle
+        cx="50"
+        cy="50"
+        r="47"
+        stroke-width="2.3"
+        fill="none"
+        stroke="url(#Gradient1)"
+      />
 
-	<style type="text/css">
-	{/* <![CDATA[
-		.st1 {fill:none}
-		.st2 {stroke:url(#grad0-3);stroke-linecap:round;stroke-linejoin:round;stroke-width:10}
-		.st3 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
-	]]> */}
-	</style>
-
-	<defs id="Patterns_And_Gradients">
-		<linearGradient id="grad0-3" x1="0" y1="0" x2="1" y2="0" gradientTransform="rotate(45 0.5 0.5)">
-			<stop offset="0.1" stop-color="#ffd965" stop-opacity="1"/>
-			<stop offset="0.5" stop-color="#c00000" stop-opacity="1"/>
-			<stop offset="0.9" stop-color="#7e649e" stop-opacity="1"/>
-		</linearGradient>
-	</defs>
-	<g v:mID="0" v:index="1" v:groupContext="foregroundPage">
-		<title>Page-1</title>
-		<v:pageProperties v:drawingScale="0.0393701" v:pageScale="0.0393701" v:drawingUnits="24" v:shadowOffsetX="8.50394"
-				v:shadowOffsetY="-8.50394"/>
-		<g id="shape26-1" v:mID="26" v:groupContext="shape" transform="translate(5,-5)">
-			<title>Sheet.26</title>
-			<path d="M476.22 248.11 A238.11 238.11 -180 1 0 0 248.11 A238.11 238.11 -180 1 0 476.22 248.11 Z" class="st1"/>
-			<path d="M106 250.09 L191.9 335.98 L363.43 164.45" class="st2"/>
-			<path d="M476.22 248.11 A238.11 238.11 -180 1 0 0 248.11 A238.11 238.11 -180 1 0 476.22 248.11" class="st2"/>
-		</g>
-	</g>
-</svg>
-
+      <path
+        d="M 25 50 L 40 65 L 75 35"
+        fill="none"
+        stroke="url(#Gradient1)"
+        stroke-width="2.3"
+		strokeLinecap="round"
+      />
+    </svg>
   );
 }
