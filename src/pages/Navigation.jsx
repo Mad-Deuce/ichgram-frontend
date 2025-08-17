@@ -17,10 +17,10 @@ import PrivateRoute from "/src/modules/PrivateRoute/PrivateRoute";
 export default function Navigation() {
   return (
     <Routes>
-      <Route element={<PublicRoute />}>
-        <Route path="/auth/login" element={<AuthLoginPage />} />
-        <Route path="/auth/register" element={<AuthSignupPage />} />
-        <Route path="/auth/reset" element={<AuthResetPage />} />
+      <Route  path="/auth" element={<PublicRoute />}>
+        <Route path="login" element={<AuthLoginPage />} />
+        <Route path="signup" element={<AuthSignupPage />} />
+        <Route path="reset" element={<AuthResetPage />} />
       </Route>
       <Route element={<PrivateRoute />}>
         <Route path="/" element={<HomePage />} />

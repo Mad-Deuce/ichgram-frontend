@@ -1,4 +1,4 @@
-import instance from "./intstance";
+import instance from "./instance";
 
 const setToken = token => {
     if(token) {
@@ -8,7 +8,7 @@ const setToken = token => {
 }
 
 export const registerUserApi = async payload => {
-    const {data} = await instance.post("/auth/register", payload);
+    const {data} = await instance.post("/auth/signup", payload);
     setToken(data.token);
     return data;
 }

@@ -25,6 +25,6 @@
 }
 
 .error {
-  height: 1.25rem;
+  /* height: 1.25rem; */
   color: var(--color-text-error);
 }

@@ -13,7 +13,7 @@
 
 .contained {
   border: none;
-  background-color: var(--color-background-contained);
+  background-color: var(--color-background-button-primary);
   color: #fff;
 }
 .contained.active {
@@ -39,8 +39,7 @@
 .contained:hover,
 .outlined:hover,
 .text:hover {
-  background-color: var(--color-background-hover);
-  color: #fff;
+  filter: brightness(0.9);
 }
 
 .button:active {
