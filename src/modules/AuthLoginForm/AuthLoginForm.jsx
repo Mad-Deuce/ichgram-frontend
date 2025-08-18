@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Link } from "react-router-dom";
 
 import IchgramLogo from "/src/shared/components/IchgramLogo/IchgramLogo";
 import TextField from "/src/shared/components/TextField/TextField";
 import Button from "/src/shared/components/Button/Button";
 import Divider from "/src/shared/components/Divider/Divider";
+import LinkApp from "/src/shared/components/LinkApp/LinkApp";
 
 import { fields, defaultValues, registerSchema } from "./fields";
 
@@ -24,26 +24,37 @@ export default function AuthLoginForm({ handleOnSubmit }) {
   });
   return (
     <div className={styles.authLoginForm}>
-      <IchgramLogo className={styles.logo} />
-      <form onSubmit={handleSubmit(handleOnSubmit)} className={styles.form}>
-        <TextField
-          className={styles.input}
-          register={register}
-          {...fields.login}
-          error={errors.login}
-        />
-        <TextField
-          className={styles.input}
-          register={register}
-          {...fields.password}
-          error={errors.password}
-        />
-        <Button variant="contained" className={styles.button}>
-          Log in
-        </Button>
-        <Divider>OR</Divider>
-        <Link to={"/auth/reset"} className={styles.link}>Forgot password?</Link>
-      </form>
+      <div className={styles.borderWrapper}>
+        <IchgramLogo className={styles.logo} />
+
+        <form onSubmit={handleSubmit(handleOnSubmit)} className={styles.form}>
+          <TextField
+            className={styles.input}
+            register={register}
+            {...fields.login}
+            error={errors.login}
+          />
+          <TextField
+            className={styles.input}
+            register={register}
+            {...fields.password}
+            error={errors.password}
+          />
+          <Button variant="contained" className={styles.button}>
+            Log in
+          </Button>
+          <Divider>OR</Divider>
+          <LinkApp to={"/auth/reset"} className={styles.resetLink}>
+            Forgot password?
+          </LinkApp>
+        </form>
+      </div>
+      <div className={styles.borderWrapper}>
+        <span className={styles.text}>Don't have an account? </span>
+        <LinkApp to={"/auth/reset"} className={styles.signupLink}>
+          Sign up?
+        </LinkApp>
+      </div>
     </div>
   );
 }

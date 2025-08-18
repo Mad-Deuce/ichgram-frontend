@@ -4,7 +4,7 @@
   --color-text-secondary: #737373;
 
   --color-link-primary: #0095f6;
-  --color-link-secondary: #00376b;
+  --color-link-visited: #00376b;
 
   --color-text-delete: #ed4956;
   --color-text-error: #ff0014;
@@ -16,7 +16,7 @@
   --color-background-button-primary: #0095f6;
   --color-background-button-secondary: #efefef;
   --color-background-button-hover: #0095f6cc;
-   --color-background-button-active: #0095f6aa;
+  --color-background-button-active: #0095f6aa;
 
   --color-border: #dbdbdb;
 }
