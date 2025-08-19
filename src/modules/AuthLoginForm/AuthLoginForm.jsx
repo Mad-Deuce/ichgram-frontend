@@ -6,12 +6,13 @@ import TextField from "/src/shared/components/TextField/TextField";
 import Button from "/src/shared/components/Button/Button";
 import Divider from "/src/shared/components/Divider/Divider";
 import LinkApp from "/src/shared/components/LinkApp/LinkApp";
+import LoadingErrorOutput from "/src/shared/components/LoadingErrorOutput/LoadingErrorOutput";
 
 import { fields, defaultValues, registerSchema } from "./fields";
 
 import styles from "./AuthLoginForm.module.css";
 
-export default function AuthLoginForm({ handleOnSubmit }) {
+export default function AuthLoginForm({ handleOnSubmit, error, loading }) {
   const {
     register,
     handleSubmit,
@@ -22,12 +23,18 @@ export default function AuthLoginForm({ handleOnSubmit }) {
     resolver: yupResolver(registerSchema),
     mode: "onChange",
   });
+
+  const onSubmit = async (values) => {
+    handleOnSubmit(values);
+    reset();
+  };
+
   return (
     <div className={styles.authLoginForm}>
       <div className={styles.borderWrapper}>
         <IchgramLogo className={styles.logo} />
 
-        <form onSubmit={handleSubmit(handleOnSubmit)} className={styles.form}>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <TextField
             className={styles.input}
             register={register}
@@ -40,7 +47,12 @@ export default function AuthLoginForm({ handleOnSubmit }) {
             {...fields.password}
             error={errors.password}
           />
-          <Button variant="contained" className={styles.button}>
+          <Button
+            type="submit"
+            variant="contained"
+            className={styles.button}
+            disabled={!isValid}
+          >
             Log in
           </Button>
           <Divider>OR</Divider>
@@ -51,10 +63,11 @@ export default function AuthLoginForm({ handleOnSubmit }) {
       </div>
       <div className={styles.borderWrapper}>
         <span className={styles.text}>Don't have an account? </span>
-        <LinkApp to={"/auth/reset"} className={styles.signupLink}>
+        <LinkApp to={"/auth/signup"} className={styles.signupLink}>
           Sign up?
         </LinkApp>
       </div>
+      <LoadingErrorOutput loading={loading} error={error} />
     </div>
   );
 }

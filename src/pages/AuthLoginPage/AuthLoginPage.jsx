@@ -1,14 +1,30 @@
+import { useSelector, useDispatch } from "react-redux";
+
 import AuthLoginForm from "/src/modules/AuthLoginForm/AuthLoginForm";
 import BannerPhone from "/src/shared/components/BannerPhone/BannerPhone";
+
+import { loginUser } from "/src/redux/auth/auth-thunks";
+import { selectAuth } from "/src/redux/auth/auth-selectors";
 
 import styles from "./AuthLoginPage.module.css";
 
 export default function AuthLoginPage() {
+  const { loading, error } = useSelector(selectAuth);
+  const dispatch = useDispatch();
+
+  const handleOnSubmit = async (values) => {
+    dispatch(loginUser(values));
+  };
+
   return (
     <div className={styles.authLoginPage}>
-      <div class={styles.gridWrapper}>
+      <div className={styles.gridWrapper}>
         <BannerPhone />
-        <AuthLoginForm />
+        <AuthLoginForm
+          handleOnSubmit={handleOnSubmit}
+          error={error}
+          loading={loading}
+        />
       </div>
     </div>
   );

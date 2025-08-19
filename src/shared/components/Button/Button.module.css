@@ -6,7 +6,7 @@
   cursor: pointer;
 }
 .button:disabled {
-  background-color: var(--color-text-secondary) !important;
+  background-color: var(--color-background-button-disabled) !important;
   color: var(--color-text-primary) !important;
   cursor: auto;
 }

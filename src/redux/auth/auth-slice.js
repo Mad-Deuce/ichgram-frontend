@@ -23,6 +23,7 @@ const authSlice = createSlice({
                 store.user = payload.user;
             })
             .addCase(registerUser.rejected, rejected)
+            
             .addCase(getCurrentUser.pending, pending)
             .addCase(getCurrentUser.fulfilled, (store, {payload})=> {
                 store.loading = false;
@@ -32,6 +33,7 @@ const authSlice = createSlice({
                 store.loading = false;
                 store.token = null;
             })
+
             .addCase(loginUser.pending, pending)
             .addCase(loginUser.fulfilled, (store, {payload})=> {
                 store.loading = false;
@@ -39,6 +41,7 @@ const authSlice = createSlice({
                 store.user = payload.user;
             })
             .addCase(loginUser.rejected, rejected)
+
             .addCase(logoutUser.pending, pending)
             .addCase(logoutUser.fulfilled, (store)=> {
                 store.loading = false;

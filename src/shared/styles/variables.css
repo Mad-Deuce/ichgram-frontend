@@ -8,6 +8,7 @@
 
   --color-text-delete: #ed4956;
   --color-text-error: #ff0014;
+  --color-text-loading: #0095f6;
 
   --color-placeholder: #737373;
 
@@ -17,6 +18,7 @@
   --color-background-button-secondary: #efefef;
   --color-background-button-hover: #0095f6cc;
   --color-background-button-active: #0095f6aa;
+  --color-background-button-disabled: #cfcfcfaa;
 
   --color-border: #dbdbdb;
 }

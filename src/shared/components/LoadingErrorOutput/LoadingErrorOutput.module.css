@@ -1,0 +1,13 @@
+.loadingErrorOutput {
+  text-align: center;
+}
+
+.error {
+  padding: 1rem;
+  color: var(--color-text-error);
+}
+
+.loading {
+  padding: 1rem;
+  color: var(--color-text-loading);
+}
