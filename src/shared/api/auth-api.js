@@ -1,14 +1,15 @@
 import instance from "./instance";
 
+
 const setToken = token => {
-    if(token) {
+    if (token) {
         return instance.defaults.headers["Authorization"] = `Bearer ${token}`;
     }
     delete instance.defaults.headers["Authorization"];
 }
 
 export const registerUserApi = async payload => {
-    const {data} = await instance.post("/auth/signup", payload);
+    const { data } = await instance.post("/auth/signup", payload);
     setToken(data.token);
     return data;
 }
@@ -16,7 +17,7 @@ export const registerUserApi = async payload => {
 export const getCurrentUserApi = async token => {
     setToken(token);
     try {
-        const {data} = await instance.get("/auth/current");
+        const { data } = await instance.get("/auth/current");
         return data;
     }
     catch (error) {
@@ -26,13 +27,13 @@ export const getCurrentUserApi = async token => {
 }
 
 export const loginUserApi = async payload => {
-    const {data} = await instance.post("/auth/login", payload);
+    const { data } = await instance.post("/auth/login", payload);
     setToken(data.token);
     return data;
 }
 
-export const logoutUserApi = async ()=> {
-    const {data} = await instance.post("/auth/logout");
+export const logoutUserApi = async () => {
+    const { data } = await instance.post("/auth/logout");
     setToken();
     return data;
 }
