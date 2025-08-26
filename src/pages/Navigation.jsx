@@ -4,7 +4,7 @@ import NotFoundPage from "/src/pages/NotFoundPage/NotFoundPage";
 
 import AuthLoginPage from "/src/pages/AuthLoginPage/AuthLoginPage";
 import AuthSignupPage from "/src/pages/AuthSignupPage/AuthSignupPage";
-import AuthResetPage from "/src/pages/AuthResetPage/AuthResetPage";
+import AuthResetPasswordPage from "/src/pages/AuthResetPasswordPage/AuthResetPasswordPage";
 
 import HomePage from "/src/pages/HomePage/HomePage";
 import ProfilePage from "/src/pages/ProfilePage/ProfilePage";
@@ -20,7 +20,7 @@ export default function Navigation() {
       <Route  path="/auth" element={<PublicRoute />}>
         <Route path="login" element={<AuthLoginPage />} />
         <Route path="signup" element={<AuthSignupPage />} />
-        <Route path="reset" element={<AuthResetPage />} />
+        <Route path="reset" element={<AuthResetPasswordPage />} />
       </Route>
       <Route element={<PrivateRoute />}>
         <Route path="/" element={<HomePage />} />

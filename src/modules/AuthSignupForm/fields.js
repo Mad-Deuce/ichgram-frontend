@@ -1,6 +1,6 @@
-import * as yup  from "yup";
+import * as yup from "yup";
 import YupPassword from 'yup-password'
-YupPassword(yup );
+YupPassword(yup);
 
 export const defaultValues = {
   email: "",
@@ -43,21 +43,22 @@ const usernameRule = {
   message: "Special characters are not allowed in Full Name",
 };
 
-export const registerSchema = yup .object().shape({
-  email: yup .string()
+export const registerSchema = yup.object().shape({
+  email: yup.string()
     .trim()
     .required()
     .email(),
-  fullName: yup .string()
+  fullName: yup.string()
     .trim()
     .required()
     .min(5)
     .matches(fullNameRule.regexp, fullNameRule.message),
-  username: yup .string()
+  username: yup.string()
     .trim()
     .required()
     .min(5)
     .matches(usernameRule.regexp, usernameRule.message),
-  password: yup .string()
+  password: yup.string()
     .password()
+    .required(),
 });

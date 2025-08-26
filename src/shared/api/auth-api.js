@@ -37,3 +37,14 @@ export const logoutUserApi = async () => {
     setToken();
     return data;
 }
+
+export const resetPasswordApi = async payload => {
+    const { data } = await instance.post("/auth/reset", payload);
+    return data;
+}
+
+export const updatePasswordApi = async payload => {
+    const { data } = await instance.put("/auth/updatePassword", payload);
+    setToken(data.token);
+    return data;
+}

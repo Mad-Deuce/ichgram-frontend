@@ -60,3 +60,16 @@ export const logoutUser = createAsyncThunk(
         }
     }
 )
+
+export const resetPassword = createAsyncThunk(
+    "auth/resetPassword",
+    async(payload, {rejectWithValue})=> {
+        try {
+            const data = await registerUserApi(payload);
+            return data;
+        }
+        catch(error) {
+            return rejectWithValue(error.response?.data?.message || error.message)
+        }
+    }
+)
