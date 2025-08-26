@@ -1,21 +1,25 @@
 import { useSelector, useDispatch } from "react-redux";
+import { useSearchParams } from 'react-router-dom';
 
 import AuthResetPasswordForm from "/src/modules/AuthResetPasswordForm/AuthResetPasswordForm";
 
-import { loginUser } from "/src/redux/auth/auth-thunks";
+import { resetPassword, updatePassword } from "/src/redux/auth/auth-thunks";
 import { selectAuth } from "/src/redux/auth/auth-selectors";
 
 import styles from "./AuthResetPasswordPage.module.css";
 
 export default function AuthResetPasswordPage() {
-  const { loading, error, tempToken } = useSelector(selectAuth);
+  let [searchParams] = useSearchParams();
+  const resetToken = searchParams.get('resetToken') ;
+  const { loading, error } = useSelector(selectAuth);
   const dispatch = useDispatch();
 
   const handleOnSubmitUsernameOrEmail = async (values) => {
-    dispatch(loginUser(values));
+    dispatch(resetPassword(values));
   };
+
   const handleOnSubmitNewPassword = async (values) => {
-    console.log(values);
+    dispatch(updatePassword({values, resetToken}));
   };
 
   return (
@@ -23,7 +27,7 @@ export default function AuthResetPasswordPage() {
       <AuthResetPasswordForm
         handleOnSubmitUsernameOrEmail={handleOnSubmitUsernameOrEmail}
         handleOnSubmitNewPassword={handleOnSubmitNewPassword}
-        tempToken={tempToken}
+        resetToken={resetToken}
         error={error}
         loading={loading}
       />

@@ -17,7 +17,7 @@ export default function AuthResetPasswordForm({
   handleOnSubmitNewPassword,
   error,
   loading,
-  tempToken,
+  resetToken,
 }) {
   const {
     register,
@@ -46,19 +46,18 @@ export default function AuthResetPasswordForm({
         <div className={styles.titleWrapper}>
           <h3 className={styles.title}>Trouble logging in?</h3>
           <p className={styles.titleText}>
-            Enter your email, phone, or username and we'll
-          </p>
-          <p className={styles.titleText}>
-            send you a link to get back into your account.
+            { resetToken ? "Enter new password" :
+              "Enter your email, phone, or username and we'll send you a link to get back into your account."
+            }
           </p>
         </div>
         <form
           onSubmit={handleSubmit(
-            tempToken ? onSubmitNewPassword : onSubmitUsernameOrEmail
+            resetToken ? onSubmitNewPassword : onSubmitUsernameOrEmail
           )}
           className={styles.form}
         >
-          {!tempToken && (
+          {!resetToken && (
             <TextField
               className={styles.input}
               register={register}
@@ -66,13 +65,21 @@ export default function AuthResetPasswordForm({
               error={errors.login}
             />
           )}
-          {tempToken && (
-            <TextField
-              className={styles.input}
-              register={register}
-              {...fields.password}
-              error={errors.password}
-            />
+          {resetToken && (
+            <>
+              <TextField
+                className={styles.input}
+                register={register}
+                {...fields.password}
+                error={errors.password}
+              />
+              <TextField
+                className={styles.input}
+                register={register}
+                {...fields.confirmPassword}
+                error={errors.confirmPassword}
+              />
+            </>
           )}
           <Button
             type="submit"
@@ -80,7 +87,7 @@ export default function AuthResetPasswordForm({
             className={styles.button}
             disabled={!isValid}
           >
-            {tempToken ? "Update password" : "Reset your password"}
+            {resetToken ? "Update password" : "Reset your password"}
           </Button>
           <Divider>OR</Divider>
           <LinkApp to={"/auth/signup"} className={styles.signupLink}>

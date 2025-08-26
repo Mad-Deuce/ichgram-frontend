@@ -1,15 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { registerUserApi, getCurrentUserApi, logoutUserApi, loginUserApi } from "/src/shared/api/auth-api";
+import { registerUserApi, getCurrentUserApi, logoutUserApi, loginUserApi, resetPasswordApi, updatePasswordApi } from "/src/shared/api/auth-api";
 
 export const registerUser = createAsyncThunk(
     "auth/register",
-    async(payload, {rejectWithValue})=> {
+    async (payload, { rejectWithValue }) => {
         try {
             const data = await registerUserApi(payload);
             return data;
         }
-        catch(error) {
+        catch (error) {
             return rejectWithValue(error.response?.data?.message || error.message)
         }
     }
@@ -17,19 +17,19 @@ export const registerUser = createAsyncThunk(
 
 export const getCurrentUser = createAsyncThunk(
     "auth/current",
-    async(_, {rejectWithValue, getState})=> {
+    async (_, { rejectWithValue, getState }) => {
         try {
-            const {auth} = getState();
+            const { auth } = getState();
             const data = await getCurrentUserApi(auth.token);
             return data;
         }
-        catch(error) {
+        catch (error) {
             return rejectWithValue(error.response?.data?.message || error.message)
         }
     },
     {
-        condition: (_, {getState})=> {
-            const {auth} =getState();
+        condition: (_, { getState }) => {
+            const { auth } = getState();
             return Boolean(auth.token);
         }
     }
@@ -37,12 +37,12 @@ export const getCurrentUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
     "auth/login",
-    async(payload, {rejectWithValue})=> {
+    async (payload, { rejectWithValue }) => {
         try {
             const data = await loginUserApi(payload);
             return data;
         }
-        catch(error) {
+        catch (error) {
             return rejectWithValue(error.response?.data?.message || error.message)
         }
     }
@@ -50,12 +50,12 @@ export const loginUser = createAsyncThunk(
 
 export const logoutUser = createAsyncThunk(
     "auth/logout",
-    async(_, {rejectWithValue})=> {
+    async (_, { rejectWithValue }) => {
         try {
             const data = await logoutUserApi();
             return data;
         }
-        catch(error) {
+        catch (error) {
             return rejectWithValue(error.response?.data?.message || error.message)
         }
     }
@@ -63,12 +63,26 @@ export const logoutUser = createAsyncThunk(
 
 export const resetPassword = createAsyncThunk(
     "auth/resetPassword",
-    async(payload, {rejectWithValue})=> {
+    async (payload, { rejectWithValue }) => {
         try {
-            const data = await registerUserApi(payload);
+            const data = await resetPasswordApi(payload);
             return data;
         }
-        catch(error) {
+        catch (error) {
+            return rejectWithValue(error.response?.data?.message || error.message)
+        }
+    }
+)
+
+
+export const updatePassword = createAsyncThunk(
+    "auth/updatePassword",
+    async (payload, { rejectWithValue }) => {
+        try {
+            const data = await updatePasswordApi(payload);
+            return data;
+        }
+        catch (error) {
             return rejectWithValue(error.response?.data?.message || error.message)
         }
     }

@@ -43,8 +43,9 @@ export const resetPasswordApi = async payload => {
     return data;
 }
 
-export const updatePasswordApi = async payload => {
-    const { data } = await instance.put("/auth/updatePassword", payload);
+export const updatePasswordApi = async ({values, resetToken}) => {
+    setToken(resetToken);
+    const { data } = await instance.put("/auth/reset", values);
     setToken(data.token);
     return data;
 }

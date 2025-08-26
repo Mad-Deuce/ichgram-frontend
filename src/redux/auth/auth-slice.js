@@ -2,13 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { pending, rejected } from "/src/shared/utils/redux";
 
-import { registerUser, getCurrentUser, loginUser, logoutUser } from "./auth-thunks";
+import { registerUser, getCurrentUser, loginUser, logoutUser, resetPassword, updatePassword } from "./auth-thunks";
 
 const initialState = {
     loading: false,
     error: null,
     token: null,
-    tempToken: null,
     user: null
 };
 
@@ -50,6 +49,22 @@ const authSlice = createSlice({
                 store.user = null;
             })
             .addCase(logoutUser.rejected, rejected)
+
+            .addCase(resetPassword.pending, pending)
+            .addCase(resetPassword.fulfilled, (store) => {
+                store.loading = false;
+                store.token = null;
+                store.user = null;
+            })
+            .addCase(resetPassword.rejected, rejected)
+
+            .addCase(updatePassword.pending, pending)
+            .addCase(updatePassword.fulfilled, (store, { payload }) => {
+                store.loading = false;
+                store.token = payload.token;
+                store.user = payload.user;
+            })
+            .addCase(updatePassword.rejected, rejected)
     }
 });
 
