@@ -8,7 +8,7 @@ import { selectAuth } from "/src/redux/auth/auth-selectors";
 import styles from "./AuthSignupPage.module.css";
 
 export default function AuthSignupPage() {
-  const { loading, error } = useSelector(selectAuth);
+  const { loading, error, message } = useSelector(selectAuth);
   const dispatch = useDispatch();
 
   const handleOnSubmit = async (values) => {
@@ -17,11 +17,12 @@ export default function AuthSignupPage() {
 
   return (
     <div className={styles.authSignupPage}>
-        <AuthSignupForm
-          handleOnSubmit={handleOnSubmit}
-          error={error}
-          loading={loading}
-        />
+      <AuthSignupForm
+        handleOnSubmit={handleOnSubmit}
+        error={error}
+        loading={loading}
+        message={message}
+      />
     </div>
   );
 }

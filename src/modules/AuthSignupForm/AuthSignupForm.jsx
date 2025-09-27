@@ -11,7 +11,12 @@ import { fields, defaultValues, registerSchema } from "./fields";
 
 import styles from "./AuthSignupForm.module.css";
 
-export default function AuthSignupForm({ handleOnSubmit, error, loading }) {
+export default function AuthSignupForm({
+  handleOnSubmit,
+  error,
+  loading,
+  message,
+}) {
   const {
     register,
     handleSubmit,
@@ -25,7 +30,7 @@ export default function AuthSignupForm({ handleOnSubmit, error, loading }) {
 
   const onSubmit = async (values) => {
     handleOnSubmit(values);
-    reset();
+    // reset();
   };
 
   return (
@@ -47,8 +52,8 @@ export default function AuthSignupForm({ handleOnSubmit, error, loading }) {
           <TextField
             className={styles.input}
             register={register}
-            {...fields.fullName}
-            error={errors.fullName}
+            {...fields.fullname}
+            error={errors.fullname}
           />
           <TextField
             className={styles.input}
@@ -103,7 +108,7 @@ export default function AuthSignupForm({ handleOnSubmit, error, loading }) {
           Log in
         </LinkApp>
       </div>
-      <LoadingErrorOutput loading={loading} error={error} />
+      <LoadingErrorOutput loading={loading} error={error} message={message} />
     </div>
   );
 }

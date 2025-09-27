@@ -4,7 +4,7 @@ YupPassword(yup);
 
 export const defaultValues = {
   email: "",
-  fullName: "",
+  fullname: "",
   username: "",
   password: "",
 };
@@ -15,8 +15,8 @@ export const fields = {
     type: "text",
     placeholder: "Email",
   },
-  fullName: {
-    name: "fullName",
+  fullname: {
+    name: "fullname",
     type: "text",
     placeholder: "Full Name",
   },
@@ -33,32 +33,40 @@ export const fields = {
 };
 
 
-const fullNameRule = {
-  regexp: /^[a-zA-Z]+$/,
+const fullnamePattern = {
+  regexp: /^[a-zA-Z ]*$/,
   message: "Special characters and numbers are not allowed in Full Name",
 };
 
-const usernameRule = {
-  regexp: /^[a-zA-Z0-9]+$/,
+const usernamePattern = {
+  regexp: /^[a-zA-Z0-9 ]*$/,
   message: "Special characters are not allowed in Full Name",
+};
+
+const emailPattern = {
+  regexp: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+  message: "Please enter a valid email address.",
+};
+
+const passwordPattern = {
+  regexp: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]+$/,
+  message: "Password must contain at least one uppercase letter, one lowercase letter, numeric character, one special character",
 };
 
 export const registerSchema = yup.object().shape({
   email: yup.string()
     .trim()
     .required()
-    .email(),
-  fullName: yup.string()
+    .matches(emailPattern.regexp, emailPattern.message),
+  fullname: yup.string()
     .trim()
-    .required()
-    .min(5)
-    .matches(fullNameRule.regexp, fullNameRule.message),
+    .max(30)
+    .matches(fullnamePattern.regexp, fullnamePattern.message),
   username: yup.string()
     .trim()
-    .required()
-    .min(5)
-    .matches(usernameRule.regexp, usernameRule.message),
+    .max(30)
+    .matches(usernamePattern.regexp, usernamePattern.message),
   password: yup.string()
-    .password()
+    .matches(passwordPattern.regexp, passwordPattern.message)
     .required(),
 });

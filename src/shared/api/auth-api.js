@@ -8,9 +8,8 @@ const setToken = token => {
     delete instance.defaults.headers["Authorization"];
 }
 
-export const registerUserApi = async payload => {
+export const signupUserApi = async payload => {
     const { data } = await instance.post("/auth/signup", payload);
-    setToken(data.token);
     return data;
 }
 
@@ -43,7 +42,7 @@ export const resetPasswordApi = async payload => {
     return data;
 }
 
-export const updatePasswordApi = async ({values, resetToken}) => {
+export const updatePasswordApi = async ({ values, resetToken }) => {
     setToken(resetToken);
     const { data } = await instance.put("/auth/reset", values);
     setToken(data.token);

@@ -11,3 +11,10 @@
   padding: 1rem;
   color: var(--color-text-loading);
 }
+
+.info {
+  padding: 1rem;
+  color: var(--color-text-info);
+  font-weight: 600;
+  text-decoration: underline;
+}

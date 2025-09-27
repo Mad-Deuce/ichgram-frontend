@@ -7,8 +7,8 @@ import { registerUser, getCurrentUser, loginUser, logoutUser, resetPassword, upd
 const initialState = {
     loading: false,
     error: null,
-    token: null,
-    user: null
+    message: null,
+    user: null,
 };
 
 const authSlice = createSlice({
@@ -19,8 +19,7 @@ const authSlice = createSlice({
             .addCase(registerUser.pending, pending)
             .addCase(registerUser.fulfilled, (store, { payload }) => {
                 store.loading = false;
-                store.token = payload.token;
-                store.user = payload.user;
+                store.message = payload.message;
             })
             .addCase(registerUser.rejected, rejected)
 
@@ -31,13 +30,11 @@ const authSlice = createSlice({
             })
             .addCase(getCurrentUser.rejected, (store) => {
                 store.loading = false;
-                store.token = null;
             })
 
             .addCase(loginUser.pending, pending)
             .addCase(loginUser.fulfilled, (store, { payload }) => {
                 store.loading = false;
-                store.token = payload.token;
                 store.user = payload.user;
             })
             .addCase(loginUser.rejected, rejected)
@@ -45,7 +42,6 @@ const authSlice = createSlice({
             .addCase(logoutUser.pending, pending)
             .addCase(logoutUser.fulfilled, (store) => {
                 store.loading = false;
-                store.token = null;
                 store.user = null;
             })
             .addCase(logoutUser.rejected, rejected)
@@ -53,7 +49,6 @@ const authSlice = createSlice({
             .addCase(resetPassword.pending, pending)
             .addCase(resetPassword.fulfilled, (store) => {
                 store.loading = false;
-                store.token = null;
                 store.user = null;
             })
             .addCase(resetPassword.rejected, rejected)
@@ -61,7 +56,6 @@ const authSlice = createSlice({
             .addCase(updatePassword.pending, pending)
             .addCase(updatePassword.fulfilled, (store, { payload }) => {
                 store.loading = false;
-                store.token = payload.token;
                 store.user = payload.user;
             })
             .addCase(updatePassword.rejected, rejected)

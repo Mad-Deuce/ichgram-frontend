@@ -10,7 +10,7 @@
   background-color: var(--color-background-input-secondary);
 }
 .input::selection {
-  background-color: var(--color-text-success);
+  background-color: var(--color-input-selection);
 }
 
 .filled {
