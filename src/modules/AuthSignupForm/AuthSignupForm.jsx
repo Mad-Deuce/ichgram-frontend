@@ -30,7 +30,7 @@ export default function AuthSignupForm({
 
   const onSubmit = async (values) => {
     handleOnSubmit(values);
-    // reset();
+    reset();
   };
 
   return (

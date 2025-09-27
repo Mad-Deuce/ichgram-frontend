@@ -11,13 +11,15 @@ import ProfilePage from "/src/pages/ProfilePage/ProfilePage";
 import ExplorePage from "/src/pages/ExplorePage/ExplorePage";
 import MessagePage from "/src/pages/MessagePage/MessagePage";
 
+import ConfirmPage from "/src/pages/ConfirmPage/ConfirmPage";
+
 import PublicRoute from "/src/modules/PublicRoute/PublicRoute";
 import PrivateRoute from "/src/modules/PrivateRoute/PrivateRoute";
 
 export default function Navigation() {
   return (
     <Routes>
-      <Route  path="/auth" element={<PublicRoute />}>
+      <Route path="/auth" element={<PublicRoute />}>
         <Route path="login" element={<AuthLoginPage />} />
         <Route path="signup" element={<AuthSignupPage />} />
         <Route path="reset" element={<AuthResetPasswordPage />} />
@@ -28,6 +30,7 @@ export default function Navigation() {
         <Route path="/explore" element={<ExplorePage />} />
         <Route path="/message" element={<MessagePage />} />
       </Route>
+      <Route path="/confirm" element={<ConfirmPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

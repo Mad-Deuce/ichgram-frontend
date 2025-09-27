@@ -1,5 +1,5 @@
 import instance from "./instance";
-
+import { fetchDecorator } from "/src/shared/utils/fetchDecorator";
 
 const setToken = token => {
     if (token) {
@@ -12,6 +12,11 @@ export const signupUserApi = async payload => {
     const { data } = await instance.post("/auth/signup", payload);
     return data;
 }
+
+
+export const confirmEmailApi = fetchDecorator(( token ) => instance.get("/auth/signup", { params: {token} }));
+
+
 
 export const getCurrentUserApi = async token => {
     setToken(token);
