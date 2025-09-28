@@ -20,16 +20,10 @@ export default function ConfirmPage() {
   });
 
   useEffect(() => {
-    if (state) {
-      setTimeout(() => {
-        navigate("/auth/login");
-      }, 5000);
-    }
+    setTimeout(() => {
+      navigate("/auth/login");
+    }, 10000);
   }, [state, navigate]);
-
-  console.log("state:", state);
-  console.log("error: ", error);
-  console.log("loading: ", loading);
 
   return (
     <div className={styles.confirmPage}>
@@ -39,19 +33,17 @@ export default function ConfirmPage() {
         error={error}
         loading={loading}
       />
-      {!error && (
-        <div className={styles.info}>
-          <p>
-            You will be automatically redirected to the login page after 5 sec.
-            If you are not redirected, click the link below.
-          </p>
-          <p>
-            <LinkApp to={"/auth/login"} className={styles.signupLink}>
-              Log in
-            </LinkApp>
-          </p>
-        </div>
-      )}
+      <div className={styles.info}>
+        <p>
+          You will be automatically redirected to the login page after 10 sec.
+        </p>
+        <p>If you are not redirected, click the link below.</p>
+        <p>
+          <LinkApp to={"/auth/login"} className={styles.signupLink}>
+            Log in
+          </LinkApp>
+        </p>
+      </div>
     </div>
   );
 }
