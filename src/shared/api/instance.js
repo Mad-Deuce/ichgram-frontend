@@ -26,5 +26,21 @@ instance.interceptors.response.use(
     }
 );
 
+instance.interceptors.request.use(request => {
+    if (request.data && typeof request.data === 'object') {
+        const cleanedData = {};
+        for (const key in request.data) {
+            const value = request.data[key];
+            // Exclude null, undefined, and empty strings
+            if (value !== null && value !== undefined && value !== '') {
+                cleanedData[key] = value;
+            }
+        }
+        request.data = cleanedData;
+    }
+    return request;
+}, error => {
+    return Promise.reject(error);
+});
 
 export default instance;

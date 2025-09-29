@@ -8,15 +8,16 @@ import Divider from "/src/shared/components/Divider/Divider";
 import LinkApp from "/src/shared/components/LinkApp/LinkApp";
 import LoadingErrorOutput from "/src/shared/components/LoadingErrorOutput/LoadingErrorOutput";
 
-import { fields, defaultValues, registerSchema } from "./fields";
+import { fields, defaultValues, emailSchema, passwordSchema } from "./fields";
 
 import styles from "./AuthResetPasswordForm.module.css";
 
 export default function AuthResetPasswordForm({
-  handleOnSubmitUsernameOrEmail,
+  handleOnSubmitEmail,
   handleOnSubmitNewPassword,
   error,
   loading,
+  message,
   resetToken,
 }) {
   const {
@@ -26,12 +27,12 @@ export default function AuthResetPasswordForm({
     formState: { errors, isValid },
   } = useForm({
     defaultValues,
-    resolver: yupResolver(registerSchema),
+    resolver: yupResolver(resetToken ? passwordSchema : emailSchema),
     mode: "onChange",
   });
 
-  const onSubmitUsernameOrEmail = async (values) => {
-    handleOnSubmitUsernameOrEmail(values);
+  const onSubmitEmail = async (values) => {
+    handleOnSubmitEmail(values);
     reset();
   };
   const onSubmitNewPassword = async (values) => {
@@ -53,7 +54,7 @@ export default function AuthResetPasswordForm({
         </div>
         <form
           onSubmit={handleSubmit(
-            resetToken ? onSubmitNewPassword : onSubmitUsernameOrEmail
+            resetToken ? onSubmitNewPassword : onSubmitEmail
           )}
           className={styles.form}
         >
@@ -61,8 +62,8 @@ export default function AuthResetPasswordForm({
             <TextField
               className={styles.input}
               register={register}
-              {...fields.login}
-              error={errors.login}
+              {...fields.email}
+              error={errors.email}
             />
           )}
           {resetToken && (
@@ -100,7 +101,7 @@ export default function AuthResetPasswordForm({
           Back to login
         </LinkApp>
       </div>
-      <LoadingErrorOutput loading={loading} error={error} />
+      <LoadingErrorOutput loading={loading} error={error} message={message}/>
     </div>
   );
 }

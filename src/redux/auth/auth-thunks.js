@@ -28,6 +28,33 @@ export const loginUser = createAsyncThunk(
     }
 )
 
+export const resetPassword = createAsyncThunk(
+    "auth/resetPassword",
+    async (payload, { rejectWithValue }) => {
+        try {
+            const data = await resetPasswordApi(payload);
+            return data;
+        }
+        catch (error) {
+            return rejectWithValue(error.response?.data?.message || error.message)
+        }
+    }
+)
+
+
+export const updatePassword = createAsyncThunk(
+    "auth/updatePassword",
+    async (payload, { rejectWithValue }) => {
+        try {
+            const data = await updatePasswordApi(payload);
+            return data;
+        }
+        catch (error) {
+            return rejectWithValue(error.response?.data?.message || error.message)
+        }
+    }
+)
+
 
 
 
@@ -66,29 +93,3 @@ export const logoutUser = createAsyncThunk(
     }
 )
 
-export const resetPassword = createAsyncThunk(
-    "auth/resetPassword",
-    async (payload, { rejectWithValue }) => {
-        try {
-            const data = await resetPasswordApi(payload);
-            return data;
-        }
-        catch (error) {
-            return rejectWithValue(error.response?.data?.message || error.message)
-        }
-    }
-)
-
-
-export const updatePassword = createAsyncThunk(
-    "auth/updatePassword",
-    async (payload, { rejectWithValue }) => {
-        try {
-            const data = await updatePasswordApi(payload);
-            return data;
-        }
-        catch (error) {
-            return rejectWithValue(error.response?.data?.message || error.message)
-        }
-    }
-)

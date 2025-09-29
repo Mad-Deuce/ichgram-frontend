@@ -48,7 +48,7 @@ export const emailPattern = {
   message: "Please enter a valid email address.",
 };
 
-const passwordPattern = {
+export const passwordPattern = {
   regexp: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]+$/,
   message: "Password must contain at least one uppercase letter, one lowercase letter, numeric character, one special character",
 };

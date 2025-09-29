@@ -2,17 +2,19 @@ import * as yup from "yup";
 import YupPassword from 'yup-password'
 YupPassword(yup);
 
+import { emailPattern, passwordPattern } from "../AuthSignupForm/fields";
+
 export const defaultValues = {
-  login: "",
+  email: "",
   password: "",
   confirmPassword: "",
 };
 
 export const fields = {
-  login: {
-    name: "login",
+  email: {
+    name: "email",
     type: "text",
-    placeholder: "Email or Username",
+    placeholder: "Email",
   },
   password: {
     name: "password",
@@ -26,15 +28,19 @@ export const fields = {
   }
 };
 
-export const registerSchema = yup.object({
-  login: yup.string()
+export const emailSchema = yup.object({
+  email: yup.string()
     .trim()
-    .required(),
+    .required()
+    .matches(emailPattern.regexp, emailPattern.message),
+});
+
+export const passwordSchema = yup.object({
   password: yup.string()
-    .password()
-    .required(),
+    .required()
+    .matches(passwordPattern.regexp, passwordPattern.message),
   confirmPassword: yup.string()
     .oneOf([yup.ref("password")])
-    .password()
-    .required(),
+    .required()
+    .matches(passwordPattern.regexp, passwordPattern.message),
 });

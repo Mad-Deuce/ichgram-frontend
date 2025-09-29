@@ -5,13 +5,14 @@ import NotFoundPage from "/src/pages/NotFoundPage/NotFoundPage";
 import AuthLoginPage from "/src/pages/AuthLoginPage/AuthLoginPage";
 import AuthSignupPage from "/src/pages/AuthSignupPage/AuthSignupPage";
 import AuthResetPasswordPage from "/src/pages/AuthResetPasswordPage/AuthResetPasswordPage";
+import AuthConfirmPage from "/src/pages/AuthConfirmPage/AuthConfirmPage";
 
 import HomePage from "/src/pages/HomePage/HomePage";
 import ProfilePage from "/src/pages/ProfilePage/ProfilePage";
 import ExplorePage from "/src/pages/ExplorePage/ExplorePage";
 import MessagePage from "/src/pages/MessagePage/MessagePage";
 
-import ConfirmPage from "/src/pages/ConfirmPage/ConfirmPage";
+
 
 import PublicRoute from "/src/modules/PublicRoute/PublicRoute";
 import PrivateRoute from "/src/modules/PrivateRoute/PrivateRoute";
@@ -29,9 +30,9 @@ export default function Navigation() {
         <Route path="login" element={<AuthLoginPage />} />
         <Route path="signup" element={<AuthSignupPage />} />
         <Route path="reset" element={<AuthResetPasswordPage />} />
+        <Route path="verify" element={<AuthConfirmPage />} />
       </Route>
 
-      <Route path="/verify" element={<ConfirmPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

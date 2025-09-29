@@ -7,7 +7,7 @@ import LoadingErrorOutput from "/src/shared/components/LoadingErrorOutput/Loadin
 import { confirmEmailApi } from "/src/shared/api/auth-api";
 import useFetch from "/src/shared/hooks/useFetch";
 
-import styles from "./ConfirmPage.module.css";
+import styles from "./AuthConfirmPage.module.css";
 
 export default function ConfirmPage() {
   const [searchParams] = useSearchParams();

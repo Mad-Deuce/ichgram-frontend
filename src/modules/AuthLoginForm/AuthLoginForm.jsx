@@ -39,7 +39,7 @@ export default function AuthLoginForm({ handleOnSubmit, error, loading, message 
             className={styles.input}
             register={register}
             {...fields.email}
-            error={errors.login}
+            error={errors.email}
           />
           <TextField
             className={styles.input}

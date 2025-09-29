@@ -51,9 +51,10 @@ const authSlice = createSlice({
             .addCase(logoutUser.rejected, rejected)
 
             .addCase(resetPassword.pending, pending)
-            .addCase(resetPassword.fulfilled, (store) => {
+            .addCase(resetPassword.fulfilled, (store, { payload }) => {
                 store.loading = false;
                 store.user = null;
+                store.message = payload.message;
             })
             .addCase(resetPassword.rejected, rejected)
 
@@ -61,6 +62,7 @@ const authSlice = createSlice({
             .addCase(updatePassword.fulfilled, (store, { payload }) => {
                 store.loading = false;
                 store.user = payload.user;
+                store.message = payload.message;
             })
             .addCase(updatePassword.rejected, rejected)
     }

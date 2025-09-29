@@ -20,6 +20,17 @@ export const loginUserApi = async payload => {
     return data;
 }
 
+export const resetPasswordApi = async payload => {
+    const { data } = await instance.post("/auth/reset", payload);
+    return data;
+}
+
+export const updatePasswordApi = async ({ values, token }) => {
+    const { data } = await instance.put("/auth/update", values, { params: { token } });
+    return data;
+}
+
+
 export const getCurrentUserApi = async token => {
     setToken(token);
     try {
@@ -40,14 +51,3 @@ export const logoutUserApi = async () => {
     return data;
 }
 
-export const resetPasswordApi = async payload => {
-    const { data } = await instance.post("/auth/reset", payload);
-    return data;
-}
-
-export const updatePasswordApi = async ({ values, resetToken }) => {
-    setToken(resetToken);
-    const { data } = await instance.put("/auth/reset", values);
-    setToken(data.token);
-    return data;
-}
