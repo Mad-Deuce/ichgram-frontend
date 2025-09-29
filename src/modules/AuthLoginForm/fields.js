@@ -1,15 +1,17 @@
 import * as Yup from "yup";
 
+import { emailPattern } from "../AuthSignupForm/fields";
+
 export const defaultValues = {
-  login: "",
+  email: "",
   password: "",
 };
 
 export const fields = {
-  login: {
-    name: "login",
+  email: {
+    name: "email",
     type: "text",
-    placeholder: "Username or email",
+    placeholder: "Email",
   },
   password: {
     name: "password",
@@ -19,8 +21,9 @@ export const fields = {
 };
 
 export const registerSchema = Yup.object({
-  login: Yup.string()
+  email: Yup.string()
     .trim()
+    .matches(emailPattern.regexp, emailPattern.message)
     .required(),
   password: Yup.string()
     .trim()

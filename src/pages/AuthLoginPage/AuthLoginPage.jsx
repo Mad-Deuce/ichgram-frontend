@@ -9,7 +9,7 @@ import { selectAuth } from "/src/redux/auth/auth-selectors";
 import styles from "./AuthLoginPage.module.css";
 
 export default function AuthLoginPage() {
-  const { loading, error } = useSelector(selectAuth);
+  const { loading, error, message } = useSelector(selectAuth);
   const dispatch = useDispatch();
 
   const handleOnSubmit = async (values) => {
@@ -24,6 +24,7 @@ export default function AuthLoginPage() {
           handleOnSubmit={handleOnSubmit}
           error={error}
           loading={loading}
+          message={message}
         />
       </div>
     </div>

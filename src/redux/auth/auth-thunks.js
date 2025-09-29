@@ -15,6 +15,22 @@ export const registerUser = createAsyncThunk(
     }
 )
 
+export const loginUser = createAsyncThunk(
+    "auth/login",
+    async (payload, { rejectWithValue }) => {
+        try {
+            const data = await loginUserApi(payload);
+            return data;
+        }
+        catch (error) {
+            return rejectWithValue(error.response?.data?.message || error.message)
+        }
+    }
+)
+
+
+
+
 export const getCurrentUser = createAsyncThunk(
     "auth/current",
     async (_, { rejectWithValue, getState }) => {
@@ -35,18 +51,7 @@ export const getCurrentUser = createAsyncThunk(
     }
 )
 
-export const loginUser = createAsyncThunk(
-    "auth/login",
-    async (payload, { rejectWithValue }) => {
-        try {
-            const data = await loginUserApi(payload);
-            return data;
-        }
-        catch (error) {
-            return rejectWithValue(error.response?.data?.message || error.message)
-        }
-    }
-)
+
 
 export const logoutUser = createAsyncThunk(
     "auth/logout",

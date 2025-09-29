@@ -12,7 +12,7 @@ import { fields, defaultValues, registerSchema } from "./fields";
 
 import styles from "./AuthLoginForm.module.css";
 
-export default function AuthLoginForm({ handleOnSubmit, error, loading }) {
+export default function AuthLoginForm({ handleOnSubmit, error, loading, message }) {
   const {
     register,
     handleSubmit,
@@ -38,7 +38,7 @@ export default function AuthLoginForm({ handleOnSubmit, error, loading }) {
           <TextField
             className={styles.input}
             register={register}
-            {...fields.login}
+            {...fields.email}
             error={errors.login}
           />
           <TextField
@@ -67,7 +67,7 @@ export default function AuthLoginForm({ handleOnSubmit, error, loading }) {
           Sign up?
         </LinkApp>
       </div>
-      <LoadingErrorOutput loading={loading} error={error} />
+      <LoadingErrorOutput loading={loading} error={error} message={message} />
     </div>
   );
 }

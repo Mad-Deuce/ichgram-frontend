@@ -13,10 +13,12 @@ export const signupUserApi = async payload => {
     return data;
 }
 
+export const confirmEmailApi = fetchDecorator((token) => instance.get("/auth/verify", { params: { token } }));
 
-export const confirmEmailApi = fetchDecorator(( token ) => instance.get("/auth/signup", { params: {token} }));
-
-
+export const loginUserApi = async payload => {
+    const { data } = await instance.post("/auth/login", payload);
+    return data;
+}
 
 export const getCurrentUserApi = async token => {
     setToken(token);
@@ -30,11 +32,7 @@ export const getCurrentUserApi = async token => {
     }
 }
 
-export const loginUserApi = async payload => {
-    const { data } = await instance.post("/auth/login", payload);
-    setToken(data.token);
-    return data;
-}
+
 
 export const logoutUserApi = async () => {
     const { data } = await instance.post("/auth/logout");

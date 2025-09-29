@@ -43,7 +43,7 @@ const usernamePattern = {
   message: "Special characters are not allowed in Full Name",
 };
 
-const emailPattern = {
+export const emailPattern = {
   regexp: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
   message: "Please enter a valid email address.",
 };

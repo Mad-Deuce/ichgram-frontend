@@ -30,7 +30,7 @@ export default function Navigation() {
         <Route path="/explore" element={<ExplorePage />} />
         <Route path="/message" element={<MessagePage />} />
       </Route>
-      <Route path="/confirm" element={<ConfirmPage />} />
+      <Route path="/verify" element={<ConfirmPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

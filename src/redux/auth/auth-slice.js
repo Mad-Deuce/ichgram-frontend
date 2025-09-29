@@ -23,6 +23,15 @@ const authSlice = createSlice({
             })
             .addCase(registerUser.rejected, rejected)
 
+            .addCase(loginUser.pending, pending)
+            .addCase(loginUser.fulfilled, (store, { payload }) => {
+                store.loading = false;
+                store.user = payload.user;
+                store.message = payload.message;
+            })
+            .addCase(loginUser.rejected, rejected)
+
+
             .addCase(getCurrentUser.pending, pending)
             .addCase(getCurrentUser.fulfilled, (store, { payload }) => {
                 store.loading = false;
@@ -32,12 +41,7 @@ const authSlice = createSlice({
                 store.loading = false;
             })
 
-            .addCase(loginUser.pending, pending)
-            .addCase(loginUser.fulfilled, (store, { payload }) => {
-                store.loading = false;
-                store.user = payload.user;
-            })
-            .addCase(loginUser.rejected, rejected)
+
 
             .addCase(logoutUser.pending, pending)
             .addCase(logoutUser.fulfilled, (store) => {
