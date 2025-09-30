@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { signupUserApi, getCurrentUserApi, logoutUserApi, loginUserApi, resetPasswordApi, updatePasswordApi } from "/src/shared/api/auth-api";
+import { signupUserApi, getCurrentUserApi, logoutUserApi, loginUserApi, resetPasswordApi, updatePasswordApi, refreshTokensApi } from "/src/shared/api/auth-api";
 
 export const registerUser = createAsyncThunk(
     "auth/signup",
@@ -60,10 +60,9 @@ export const updatePassword = createAsyncThunk(
 
 export const getCurrentUser = createAsyncThunk(
     "auth/current",
-    async (_, { rejectWithValue, getState }) => {
+    async (_, { rejectWithValue }) => {
         try {
-            const { auth } = getState();
-            const data = await getCurrentUserApi(auth.token);
+            const data = await getCurrentUserApi();
             return data;
         }
         catch (error) {
@@ -71,10 +70,33 @@ export const getCurrentUser = createAsyncThunk(
         }
     },
     {
-        condition: (_, { getState }) => {
-            const { auth } = getState();
-            return Boolean(auth.token);
+        // condition: (_, { getState }) => {
+        //     const { auth } = getState();
+        //     console.log(auth);
+            
+        //     return Boolean(auth.user);
+        // }
+    }
+)
+
+export const refreshTokens = createAsyncThunk(
+    "auth/refresh",
+    async (_, { rejectWithValue }) => {
+        try {
+            const data = await refreshTokensApi();
+            return data;
         }
+        catch (error) {
+            return rejectWithValue(error.response?.data?.message || error.message)
+        }
+    },
+    {
+        // condition: (_, { getState }) => {
+        //     const { auth } = getState();
+        //     console.log(auth);
+            
+        //     return Boolean(auth.user);
+        // }
     }
 )
 

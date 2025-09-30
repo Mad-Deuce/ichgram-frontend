@@ -1,4 +1,9 @@
 import axios from "axios";
+import { store } from "/src/redux/store.js";
+
+import { refreshTokens } from "/src/redux/auth/auth-thunks";
+
+
 
 const instance = axios.create({
     baseURL: "http://localhost:3000/api",
@@ -10,17 +15,24 @@ const instance = axios.create({
 instance.interceptors.response.use(
     response => response, // Directly return successful responses.
     async error => {
+        const message = error.response?.data?.message || error.message
         const originalRequest = error.config;
         if (error.response.status === 401 && !originalRequest._retry) {
-            originalRequest._retry = true; // Mark the request as retried to avoid infinite loops.
-            try {
-                await instance.get('/auth/refresh');
-                return instance(originalRequest); // Retry the original request with the new access token.
-            } catch (refreshError) {
-                console.error('Token refresh failed:', refreshError);
-                window.location.href = '/auth/login';
-                return Promise.reject(refreshError);
+
+            if (['AccessToken not found', 'AccessToken verification failed'].includes(message)) {
+                originalRequest._retry = true; // Mark the request as retried to avoid infinite loops.
+                try {
+                     store.dispatch(refreshTokens());
+                    // await instance.get('/auth/refresh');
+                    return instance(originalRequest); // Retry the original request with the new access token.
+                } catch (refreshError) {
+                    // console.error('Token refresh failed:', refreshError);
+                    //     window.location.href = '/auth/login';
+                    return Promise.reject(refreshError);
+                }
+
             }
+
         }
         return Promise.reject(error); // For all other errors, return the error as is.
     }

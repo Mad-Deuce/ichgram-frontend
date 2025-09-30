@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { pending, rejected } from "/src/shared/utils/redux";
 
-import { registerUser, getCurrentUser, loginUser, logoutUser, resetPassword, updatePassword } from "./auth-thunks";
+import { registerUser, getCurrentUser, loginUser, logoutUser, resetPassword, updatePassword, refreshTokens } from "./auth-thunks";
 
 const initialState = {
     loading: false,
@@ -35,18 +35,32 @@ const authSlice = createSlice({
             .addCase(getCurrentUser.pending, pending)
             .addCase(getCurrentUser.fulfilled, (store, { payload }) => {
                 store.loading = false;
-                store.user = payload;
+                store.user = payload.user;
+                store.message = payload.message;
             })
-            .addCase(getCurrentUser.rejected, (store) => {
-                store.loading = false;
+            .addCase(getCurrentUser.rejected, (store, { payload }) => {
+                // store.user = null;
+                rejected(store, { payload })
             })
 
+            .addCase(refreshTokens.pending, pending)
+            .addCase(refreshTokens.fulfilled, (store, { payload }) => {
+                store.loading = false;
+                store.error = null
+                // store.user = payload.user;
+                store.message = payload.message;
+            })
+            .addCase(refreshTokens.rejected, (store, { payload }) => {
+                store.user = null;
+                rejected(store, { payload })
+            })
 
 
             .addCase(logoutUser.pending, pending)
             .addCase(logoutUser.fulfilled, (store) => {
                 store.loading = false;
                 store.user = null;
+                store.message = null;
             })
             .addCase(logoutUser.rejected, rejected)
 

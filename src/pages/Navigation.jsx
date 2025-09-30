@@ -12,10 +12,9 @@ import ProfilePage from "/src/pages/ProfilePage/ProfilePage";
 import ExplorePage from "/src/pages/ExplorePage/ExplorePage";
 import MessagePage from "/src/pages/MessagePage/MessagePage";
 
-
-
 import PublicRoute from "/src/modules/PublicRoute/PublicRoute";
 import PrivateRoute from "/src/modules/PrivateRoute/PrivateRoute";
+
 
 export default function Navigation() {
   return (

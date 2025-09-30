@@ -9,7 +9,7 @@ import { store, persistor } from "/src/redux/store.js";
 import App from "/src/modules/App.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  // <StrictMode>
     <BrowserRouter>
       <Provider store={store}>
         <PersistGate persistor={persistor}>
@@ -17,5 +17,5 @@ createRoot(document.getElementById("root")).render(
         </PersistGate>
       </Provider>
     </BrowserRouter>
-  </StrictMode>
+  // </StrictMode>
 );
