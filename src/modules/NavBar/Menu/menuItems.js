@@ -21,7 +21,7 @@ export default [
     },
     {
         title: "Notification",
-        icon: "LikeIcon",
+        icon: "NotificationIcon",
         link: null
     },
     {

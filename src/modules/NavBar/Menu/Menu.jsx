@@ -1,21 +1,44 @@
-import { NavLink } from "react-router-dom";
+import {  Link, useLocation } from "react-router-dom";
 
-import menu from "./menu";
+import menuItems from "./menuItems.js";
 
 import styles from "./Menu.module.css";
 
-export default function Menu({ className, variant = "" }) {
+export default function Menu({
+  className,
+  variant = "",
+  toggleModal = () => {},
+  hideModal = () => {},
+}) {
   const fullClassName = `${styles.menu} ${className} ${styles[variant]}`;
+  const location = useLocation(); // Get the current location object
 
-  const elements = menu.map(({ title }) => {
+  const handleOnClick = (link, title) => {
+    if (link) {
+      hideModal();
+    } else {
+      toggleModal(title);
+    }
+  };
+
+  console.log(location);
+  
+
+  const elements = menuItems.map(({ title, icon, link }) => {
+
     return (
-      <li key={title} className={styles.item}>
-        <NavLink>
-          
-        </NavLink>
+      <li
+        key={title}
+        className={styles.item}
+        onClick={() => handleOnClick(link, title)}
+      >
+        <Link to={link} className={styles.link}>
+          <img src={`/src/assets/icons/${icon}.svg`} className={styles.icon} />
+          <p className={styles.title}>{title}</p>
+        </Link>
       </li>
     );
   });
 
-  return <ul className={fullClassName}>Menu {elements}</ul>;
+  return <ul className={fullClassName}>{elements}</ul>;
 }

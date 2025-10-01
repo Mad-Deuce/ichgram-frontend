@@ -23,4 +23,8 @@
   --color-background-button-disabled: #cfcfcfaa;
 
   --color-border: #dbdbdb;
+
+  --color-background-modal: #00000080;
+
+  --width-container: 1440px;
 }
