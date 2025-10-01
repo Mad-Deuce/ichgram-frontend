@@ -2,14 +2,13 @@
   position: relative;
   display: flex;
   height: 100%;
-  /* padding: 2rem 0.75rem; */
 }
 
 .left {
-  background-color: chartreuse;
   z-index: 1000;
   width: 245px;
-   padding: 2rem 0.75rem;
+  padding: 2rem 0.75rem;
+  background-color: #fff;
   border-right: 1px solid var(--color-border);
 }
 

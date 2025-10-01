@@ -29,4 +29,9 @@ export default [
         icon: "CreateIcon",
         link: null
     },
+    {
+        title: "Profile",
+        icon: null,
+        link: "/profile"
+    },
 ]

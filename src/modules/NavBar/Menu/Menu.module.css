@@ -7,6 +7,9 @@
 .item {
   padding: 1rem;
 }
+.item.profileItem {
+  padding-top: 3rem;
+}
 
 .link {
   color: var(--color-text-primary);

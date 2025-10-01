@@ -1,4 +1,7 @@
-import {  Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+import { selectUser } from "/src/redux/auth/auth-selectors";
 
 import menuItems from "./menuItems.js";
 
@@ -11,7 +14,7 @@ export default function Menu({
   hideModal = () => {},
 }) {
   const fullClassName = `${styles.menu} ${className} ${styles[variant]}`;
-  const location = useLocation(); // Get the current location object
+  const user = useSelector(selectUser);
 
   const handleOnClick = (link, title) => {
     if (link) {
@@ -21,21 +24,25 @@ export default function Menu({
     }
   };
 
-  console.log(location);
-  
-
   const elements = menuItems.map(({ title, icon, link }) => {
-
     return (
       <li
         key={title}
-        className={styles.item}
+        className={
+          title === "Profile"
+            ? `${styles.item} ${styles.profileItem}`
+            : styles.item
+        }
         onClick={() => handleOnClick(link, title)}
       >
         <Link to={link} className={styles.link}>
-          <img src={`/src/assets/icons/${icon}.svg`} className={styles.icon} />
+          <img
+            src={icon ? `/src/assets/icons/${icon}.svg` : user.avatar}
+            className={icon ? styles.icon : `${styles.icon} ${styles.avatar}`}
+          />
           <p className={styles.title}>{title}</p>
         </Link>
+        {!icon && <p className={styles.title}>{user.email}</p>}
       </li>
     );
   });

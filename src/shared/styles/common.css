@@ -1,5 +1,12 @@
+html {
+  /* height: 100vh;
+  border: 0; */
+}
+
 body {
   font-family: "Roboto", sans-serif;
+  /* border: 0; */
+  /* height: 100vh; */
 }
 
 * {

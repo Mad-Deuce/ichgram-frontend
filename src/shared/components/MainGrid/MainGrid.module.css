@@ -1,6 +1,8 @@
 .mainGrid {
   height: 100vh;
   display: grid;
+  /* gap: 0; */
+  /* border: 0; */
   grid-template-rows: 1fr auto;
   grid-template-columns: auto 1fr;
   grid-template-areas:

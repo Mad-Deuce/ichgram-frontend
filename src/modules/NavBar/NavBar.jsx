@@ -12,25 +12,33 @@ export default function NavBar() {
   const [modalChild, setModalChild] = useState(null);
 
   const toggleModal = (title) => {
-    setModalChild(title);
-    setModalHidden((prev) => !prev);
+    if (title === modalChild) {
+      setModalHidden((prev) => !prev);
+    } else {
+      setModalChild(title);
+      setModalHidden(false);
+    }
   };
-  const hideModal = () => setModalHidden(true);
-
-  console.log(modalChild);
-  
+  const hideModal = () => {
+    setModalHidden(true);
+    setModalChild(null);
+  };
 
   return (
     <div className={styles.navBar}>
       <div className={styles.left}>
         <IchgramLogo className={styles.logo} />
-        <Menu toggleModal={toggleModal} hideModal={hideModal} modalHidden={modalHidden}/>
+        <Menu
+          toggleModal={toggleModal}
+          hideModal={hideModal}
+          modalHidden={modalHidden}
+        />
       </div>
       <Modal hidden={modalHidden}>
         <div className={styles.temp}>
-          {modalChild === "Search" &&  modalChild }
-          {modalChild === "Notification" &&  modalChild }
-          {modalChild === "Create" &&  modalChild }
+          {modalChild === "Search" && modalChild}
+          {modalChild === "Notification" && modalChild}
+          {modalChild === "Create" && modalChild}
         </div>
       </Modal>
     </div>
