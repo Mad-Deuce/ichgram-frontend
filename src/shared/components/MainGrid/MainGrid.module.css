@@ -1,0 +1,9 @@
+.mainGrid {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "nb main "
+    "ft ft ";
+}

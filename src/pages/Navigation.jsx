@@ -23,7 +23,7 @@ export default function Navigation() {
         <Route path="/" element={<HomePage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/explore" element={<ExplorePage />} />
-        <Route path="/message" element={<MessagePage />} />
+        <Route path="/messages" element={<MessagePage />} />
       </Route>
       <Route path="/auth" element={<PublicRoute />}>
         <Route path="login" element={<AuthLoginPage />} />
