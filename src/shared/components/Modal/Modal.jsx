@@ -1,15 +1,19 @@
+import { useSelector } from "react-redux";
+
+import { selectModal } from "/src/redux/modal/modal-selectors";
+
 import styles from "./Modal.module.css";
 
 export default function Modal({
   className,
   variant = "",
-  hidden = true,
-  children,
 }) {
-  const fullClassName = `${styles.modal} ${className} ${styles[variant]} ${hidden && styles.hidden}`;
+  const {hidden, childrenType} = useSelector(selectModal);
+
+  const fullClassName = `${styles.modal} ${className} ${styles[variant]}`;
   return (
     <div className={fullClassName} hidden={hidden}>
-      {children}
+      {childrenType}
     </div>
   );
 }
