@@ -20,7 +20,7 @@ export default [
         link: "/messages"
     },
     {
-        title: "Notification",
+        title: "Notifications",
         icon: "NotificationIcon",
         link: null
     },

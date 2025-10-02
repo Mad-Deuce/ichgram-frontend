@@ -21,7 +21,7 @@ export default function Navigation() {
     <Routes>
       <Route element={<PrivateRoute />}>
         <Route path="/" element={<HomePage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profiles" element={<ProfilePage />} />
         <Route path="/explore" element={<ExplorePage />} />
         <Route path="/messages" element={<MessagePage />} />
       </Route>
