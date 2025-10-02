@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { selectModal } from "/src/redux/modal/modal-selectors";
 
 import Notifications from "/src/modules/Notifications/Notifications";
+import Search from "/src/modules/Search/Search";
 
 import styles from "./Modal.module.css";
 
@@ -13,6 +14,7 @@ export default function Modal({ className, variant = "" }) {
   return (
     <div className={fullClassName} hidden={hidden}>
       {childrenType === "Notifications" && <Notifications />}
+      {childrenType === "Search" && <Search />}
     </div>
   );
 }
