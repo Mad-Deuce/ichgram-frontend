@@ -4,6 +4,7 @@ import { selectModal } from "/src/redux/modal/modal-selectors";
 
 import Notifications from "/src/modules/Notifications/Notifications";
 import Search from "/src/modules/Search/Search";
+import CreatePost from "/src/modules/CreatePost/CreatePost";
 
 import styles from "./Modal.module.css";
 
@@ -15,6 +16,7 @@ export default function Modal({ className, variant = "" }) {
     <div className={fullClassName} hidden={hidden}>
       {childrenType === "Notifications" && <Notifications />}
       {childrenType === "Search" && <Search />}
+      {childrenType === "Create" && <CreatePost />}
     </div>
   );
 }
