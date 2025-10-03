@@ -7,11 +7,12 @@ export default function TextEditor({
   className,
   register = () => {},
   name = "text",
+  text = "",
 }) {
   const fullClassName = `${styles.textEditor} ${className}`;
+  
   const cursorPosition = useRef(0);
-
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(text);
 
   const handleOnChange = (event) => {
     if (event.target.localName === "textarea") {

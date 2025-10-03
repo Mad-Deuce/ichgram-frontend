@@ -6,6 +6,7 @@ export default function Upload({
   className,
   register = () => {},
   name = "file",
+  setValue,
 }) {
   const fullClassName = `${styles.upload} ${className}`;
   const [fileSrc, setFileSrc] = useState(null);
@@ -13,6 +14,7 @@ export default function Upload({
   const handleOnFileUploadChange = (event) => {
     const fileSrc = URL.createObjectURL(event.target.files[0]);
     setFileSrc(fileSrc);
+    setValue("image", event.target.files[0])
   };
 
   return (
@@ -28,11 +30,12 @@ export default function Upload({
         <input
           {...register(name)}
           type="file"
-          multiple={false}
-          accept="image/*"
+          // multiple={false}
+          // multiple
+          // accept="image/*"
           onChange={handleOnFileUploadChange}
           className={styles.input}
-          title=""
+          // title=""
         />
       </div>
     </div>
