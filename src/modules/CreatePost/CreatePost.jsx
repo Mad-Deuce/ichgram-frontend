@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 
 import Upload from "/src/shared/components/Upload/Upload";
+import TextEditor from "/src/shared/components/TextEditor/TextEditor";
 
 import styles from "./CreatePost.module.css";
 
@@ -21,10 +22,11 @@ export default function CreatePostForm() {
           </button>
         </div>
         <div className={styles.uploadWrapper}>
-          <Upload register={register} name={"image"}/>
+          <Upload register={register} name={"image"} />
         </div>
-        <div className={styles.textEditor}>textEditor</div>
-        <div className={styles.empty}>empty</div>
+        <div className={styles.textEditorWrapper}>
+          <TextEditor  register={register} name={"content"}/>
+        </div>
       </form>
     </div>
   );
