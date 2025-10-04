@@ -10,8 +10,10 @@ const useFetch = (initialState = null) => {
     setError(null);
     const { data, error } = await request();
     setLoading(false);
-    if (data) return setState(data);
-    setError(error.response?.data?.message || error.message);
+    if (error) {
+      return setError(error.response?.data?.message || error.message);
+    }
+    setState(data);
   };
 
   return { state, setState, loading, setLoading, error, setError, fetchData };

@@ -43,7 +43,7 @@ export default function CreatePostForm() {
           <LoadingErrorOutput
             loading={loading}
             error={error}
-            message={state?.message}
+            message={`${state?.message}: ${state?.post?.content}`}
           />
         </div>
       </form>
