@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import EmojiPicker from "emoji-picker-react";
 
 import styles from "./TextEditor.module.css";
@@ -7,12 +7,15 @@ export default function TextEditor({
   className,
   register = () => {},
   name = "text",
-  text = "",
+  reset = true,
 }) {
   const fullClassName = `${styles.textEditor} ${className}`;
-  
+
   const cursorPosition = useRef(0);
-  const [value, setValue] = useState(text);
+  const [value, setValue] = useState("");
+  useEffect(() => {
+    setValue("");
+  }, [reset]);
 
   const handleOnChange = (event) => {
     if (event.target.localName === "textarea") {
@@ -32,7 +35,8 @@ export default function TextEditor({
       valueArr.splice(cursorPosition.current, 0, emoji);
       return valueArr.join("");
     });
-    cursorPosition.current += 2;
+
+    cursorPosition.current += emoji.length;
   };
 
   return (
@@ -50,7 +54,7 @@ export default function TextEditor({
         value={value}
       ></textarea>
       <p className={styles.length}>{value.length}/2200</p>
-      <EmojiPicker open={true} onEmojiClick={handleEmojiClick} width={"100%"} />
+      <EmojiPicker open={true} onEmojiClick={handleEmojiClick} width={"100%"} lazyLoadEmojis={true}/>
     </div>
   );
 }

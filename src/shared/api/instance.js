@@ -22,7 +22,7 @@ instance.interceptors.response.use(
             if (['AccessToken not found', 'AccessToken verification failed'].includes(message)) {
                 originalRequest._retry = true; // Mark the request as retried to avoid infinite loops.
                 try {
-                     store.dispatch(refreshTokens());
+                    await store.dispatch(refreshTokens());
                     // await instance.get('/auth/refresh');
                     return instance(originalRequest); // Retry the original request with the new access token.
                 } catch (refreshError) {

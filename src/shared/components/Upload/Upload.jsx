@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import styles from "./Upload.module.css";
 
@@ -7,14 +7,19 @@ export default function Upload({
   register = () => {},
   name = "file",
   setValue,
+  reset = true,
 }) {
   const fullClassName = `${styles.upload} ${className}`;
   const [fileSrc, setFileSrc] = useState(null);
 
+  useEffect(() => {
+    setFileSrc(null)
+  }, [reset]);
+
   const handleOnFileUploadChange = (event) => {
     const fileSrc = URL.createObjectURL(event.target.files[0]);
     setFileSrc(fileSrc);
-    setValue("image", event.target.files[0])
+    setValue("image", event.target.files[0]);
   };
 
   return (
