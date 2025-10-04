@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import Upload from "/src/shared/components/Upload/Upload";
 import TextEditor from "/src/shared/components/TextEditor/TextEditor";
@@ -8,14 +9,27 @@ import LoadingErrorOutput from "/src/shared/components/LoadingErrorOutput/Loadin
 import { createPostApi } from "/src/shared/api/post-api";
 import useFetch from "/src/shared/hooks/useFetch";
 
+import { fields, defaultValues, createPostSchema } from "./fields";
+
 import styles from "./CreatePost.module.css";
 
 export default function CreatePostForm() {
-  const { register, handleSubmit, setValue } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+  } = useForm({
+    resolver: yupResolver(createPostSchema),
+    mode: "onChange",
+  });
   const { state, loading, error, fetchData } = useFetch();
   const [reset, setReset] = useState(false);
 
   const onSubmit = async (values) => {
+    // console.log(values);
+    // console.log(errors);
+    // console.log( createPostSchema.validate(values));
+    // console.log(validatingFields);
     fetchData(() => createPostApi(values));
     setReset((prev) => !prev);
   };
@@ -24,7 +38,7 @@ export default function CreatePostForm() {
     <div className={styles.createPost}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        encType="multipart/form-data"
+        // encType="multipart/form-data"
         className={styles.form}
       >
         <div className={styles.header}>
@@ -34,7 +48,12 @@ export default function CreatePostForm() {
           </button>
         </div>
         <div className={styles.uploadWrapper}>
-          <Upload register={register} name={"image"} setValue={setValue}  reset={reset}/>
+          <Upload
+            register={register}
+            {...fields.image}
+            setValue={setValue}
+            reset={reset}
+          />
         </div>
         <div className={styles.textEditorWrapper}>
           <TextEditor register={register} name={"content"} reset={reset} />

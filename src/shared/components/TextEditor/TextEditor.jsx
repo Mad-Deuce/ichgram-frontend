@@ -43,7 +43,6 @@ export default function TextEditor({
     <div className={fullClassName}>
       <textarea
         name={name}
-        id=""
         className={styles.textarea}
         {...register(name)}
         placeholder="Input text there..."
