@@ -16,7 +16,7 @@ export default function CreatePostForm() {
   const [reset, setReset] = useState(false);
 
   const onSubmit = async (values) => {
-    await fetchData(() => createPostApi(values));
+    fetchData(() => createPostApi(values));
     setReset((prev) => !prev);
   };
 

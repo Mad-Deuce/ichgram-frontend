@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import EmojiPicker from "emoji-picker-react";
+import EmojiPicker, {} from "emoji-picker-react";
 
 import styles from "./TextEditor.module.css";
 
@@ -54,7 +54,7 @@ export default function TextEditor({
         value={value}
       ></textarea>
       <p className={styles.length}>{value.length}/2200</p>
-      <EmojiPicker open={true} onEmojiClick={handleEmojiClick} width={"100%"} lazyLoadEmojis={true}/>
+      <EmojiPicker reactionsDefaultOpen={true} onReactionClick={handleEmojiClick} allowExpandReactions={false} lazyLoadEmojis={true}/>
     </div>
   );
 }
