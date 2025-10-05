@@ -16,8 +16,6 @@ export default function HomePage() {
     fetchData(getLastUpdatedPostsApi);
   }, []);
 
-  console.log(state);
-
   return (
     <div className={styles.homePage}>
       <LoadingErrorOutput loading={loading} error={error} />

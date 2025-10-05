@@ -1,8 +1,11 @@
 import { useState, useRef, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 import { LikeIcon, CommentIcon } from "/src/shared/components/icons";
 
+import { selectUser } from "/src/redux/auth/auth-selectors";
 import { toNotificationFormat } from "/src/shared/utils/dateFormat.js";
 
 import styles from "./Card.module.css";
@@ -13,14 +16,17 @@ export default function Card({
   className,
   item,
   handleLike,
-  handleSendComment,
+  sendComment,
 }) {
   const fullClassName = `${styles.card} ${className} `;
 
   const [isTextOverflowed, setIsTextOverflowed] = useState(false);
-  const [showCommentInput, setShowCommentInput] = useState(false);
+  const [showCommentForm, setShowCommentForm] = useState(false);
   const commentInputRef = useRef(null);
   const textRef = useRef(null);
+  const currentUser = useSelector(selectUser);
+  const { register, handleSubmit } = useForm();
+
   useEffect(() => {
     setIsTextOverflowed(
       Boolean(textRef.current.offsetHeight - textRef.current.scrollHeight)
@@ -28,7 +34,11 @@ export default function Card({
   }, []);
 
   const handleCommentButtonClick = () => {
-    setShowCommentInput((prev) => !prev);
+    setShowCommentForm((prev) => !prev);
+  };
+  const handleOnSubmitComment = ({comment}) => {
+    console.log(comment);
+    sendComment({postId: item.id, text: comment})
   };
 
   const handleReadMore = () => {
@@ -36,11 +46,14 @@ export default function Card({
     setIsTextOverflowed(false);
   };
 
-  const comments = [1, 2].map((item) => {
+  const { comments } = item;
+  console.log(comments);
+
+  const commentElements = comments.map((item) => {
     return (
-      <p className={styles.comment}>
-        <Link className={styles.commentAuthor}>{"Sashaa"}</Link>{" "}
-        <span className={styles.commentText}>{"It's golden, Ponyboy!"}</span>
+      <p key={item.id} className={styles.comment}>
+        <Link className={styles.commentAuthor}>{item.user.username}</Link>{" "}
+        <span className={styles.commentText}>{item.text}</span>
       </p>
     );
   });
@@ -59,7 +72,9 @@ export default function Card({
           {item.user.username ? item.user.username : "Sashaa"}
         </Link>
         <p className={styles.date}>{toNotificationFormat(item.updatedAt)}</p>
-        <Link className={styles.followLink}>follow</Link>
+        {currentUser.id !== item.user.id && (
+          <Link className={styles.followLink}>follow</Link>
+        )}
       </div>
       <Link to={`/posts/${item.id}`} className={styles.imgWrapper}>
         <img
@@ -78,26 +93,31 @@ export default function Card({
         >
           <CommentIcon className={styles.controlIcon} />
         </button>
-        {showCommentInput && (
-          <input
-            ref={commentInputRef}
-            type="text"
-            name="comment"
-            className={styles.commentInput}
-          />
+        {showCommentForm && (
+          <form onSubmit={handleSubmit(handleOnSubmitComment)} className={styles.commentForm}>
+            <input
+              ref={commentInputRef}
+              type="text"
+              {...register("comment", { required: true })}
+              className={styles.commentInput}
+            />
+            <button type="submit" className={styles.commentSubmitBtn}>Send</button>
+          </form>
         )}
       </div>
 
       <p className={styles.likes}>{`${101824} likes`}</p>
       <div className={styles.commentsWrapper} ref={textRef}>
-        {comments}
+        {commentElements}
 
-        <Link
-          to={`/posts/${item.id}/comment`}
-          className={styles.commentsFooter}
-        >
-          {`View all comments (${732})`}
-        </Link>
+        {comments.length > 3 && (
+          <Link
+            to={`/posts/${item.id}/comment`}
+            className={styles.commentsFooter}
+          >
+            {`View all comments (${comments.length})`}
+          </Link>
+        )}
       </div>
       {isTextOverflowed && (
         <p className={styles.readMore} onClick={handleReadMore}>

@@ -9,16 +9,12 @@ import LoadingErrorOutput from "/src/shared/components/LoadingErrorOutput/Loadin
 import { createPostApi } from "/src/shared/api/post-api";
 import useFetch from "/src/shared/hooks/useFetch";
 
-import { fields, defaultValues, createPostSchema } from "./fields";
+import { fields, createPostSchema } from "./fields";
 
 import styles from "./CreatePost.module.css";
 
 export default function CreatePostForm() {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-  } = useForm({
+  const { register, handleSubmit, setValue } = useForm({
     resolver: yupResolver(createPostSchema),
     mode: "onChange",
   });
@@ -26,21 +22,13 @@ export default function CreatePostForm() {
   const [reset, setReset] = useState(false);
 
   const onSubmit = async (values) => {
-    // console.log(values);
-    // console.log(errors);
-    // console.log( createPostSchema.validate(values));
-    // console.log(validatingFields);
     fetchData(() => createPostApi(values));
     setReset((prev) => !prev);
   };
 
   return (
     <div className={styles.createPost}>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        // encType="multipart/form-data"
-        className={styles.form}
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <div className={styles.header}>
           <h1 className={styles.title}>Create new post</h1>
           <button type="submit" className={styles.submit}>
@@ -56,7 +44,7 @@ export default function CreatePostForm() {
           />
         </div>
         <div className={styles.textEditorWrapper}>
-          <TextEditor register={register} name={fields.comment.name} reset={reset} />
+          <TextEditor register={register} {...fields.comment} reset={reset} />
         </div>
         <div className={styles.messageWrapper}>
           <LoadingErrorOutput

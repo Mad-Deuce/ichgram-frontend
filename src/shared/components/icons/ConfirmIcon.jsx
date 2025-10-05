@@ -9,9 +9,9 @@ export default function ConfirmIcon({ className }) {
     >
       <defs id="Patterns_And_Gradients">
         <linearGradient id="Gradient1" gradientTransform="rotate(45 0.5 0.5)">
-          <stop offset="0" stop-color="#F7D44C" stop-opacity="1" />
-          <stop offset="0.5" stop-color="#c00000" stop-opacity="1" />
-          <stop offset="1" stop-color="#7938E9" stop-opacity="1" />
+          <stop offset="0" stopColor="#F7D44C" stopOpacity="1" />
+          <stop offset="0.5" stopColor="#c00000" stopOpacity="1" />
+          <stop offset="1" stopColor="#7938E9" stopOpacity="1" />
         </linearGradient>
       </defs>
 
@@ -19,7 +19,7 @@ export default function ConfirmIcon({ className }) {
         cx="50"
         cy="50"
         r="47"
-        stroke-width="2.3"
+        strokeWidth="2.3"
         fill="none"
         stroke="url(#Gradient1)"
       />
@@ -28,7 +28,7 @@ export default function ConfirmIcon({ className }) {
         d="M 25 50 L 40 65 L 75 35"
         fill="none"
         stroke="url(#Gradient1)"
-        stroke-width="2.3"
+        strokeWidth="2.3"
 		strokeLinecap="round"
       />
     </svg>

@@ -8,6 +8,7 @@ export default function TextEditor({
   register = () => {},
   name = "text",
   reset = true,
+  ...props
 }) {
   const fullClassName = `${styles.textEditor} ${className}`;
 
@@ -42,10 +43,9 @@ export default function TextEditor({
   return (
     <div className={fullClassName}>
       <textarea
-        name={name}
         className={styles.textarea}
         {...register(name)}
-        placeholder="Input text there..."
+        {...props}
         spellCheck
         maxLength={2200}
         onChange={handleOnChange}
