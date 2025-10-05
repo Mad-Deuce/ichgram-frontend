@@ -12,12 +12,7 @@ import styles from "./Card.module.css";
 
 const { VITE_API_URL: baseURL } = import.meta.env;
 
-export default function Card({
-  className,
-  item,
-  handleLike,
-  sendComment,
-}) {
+export default function Card({ className, item, likePost, sendComment }) {
   const fullClassName = `${styles.card} ${className} `;
 
   const [isTextOverflowed, setIsTextOverflowed] = useState(false);
@@ -33,12 +28,14 @@ export default function Card({
     );
   }, []);
 
+  const handleLikeButtonClick = () => {
+    if (!item.isLiked) likePost(item.id);
+  };
   const handleCommentButtonClick = () => {
     setShowCommentForm((prev) => !prev);
   };
-  const handleOnSubmitComment = ({comment}) => {
-    console.log(comment);
-    sendComment({postId: item.id, text: comment})
+  const handleOnSubmitComment = ({ comment }) => {
+    sendComment({ postId: item.id, text: comment });
   };
 
   const handleReadMore = () => {
@@ -84,9 +81,12 @@ export default function Card({
         />
       </Link>
       <div className={styles.controlsWrapper}>
-        <Link to={`/posts/${item.id}/like`} className={styles.controlLink}>
+        <button
+          className={styles.controlButton}
+          onClick={handleLikeButtonClick}
+        >
           <LikeIcon className={styles.controlIcon} />
-        </Link>
+        </button>
         <button
           className={styles.controlButton}
           onClick={handleCommentButtonClick}
@@ -94,14 +94,19 @@ export default function Card({
           <CommentIcon className={styles.controlIcon} />
         </button>
         {showCommentForm && (
-          <form onSubmit={handleSubmit(handleOnSubmitComment)} className={styles.commentForm}>
+          <form
+            onSubmit={handleSubmit(handleOnSubmitComment)}
+            className={styles.commentForm}
+          >
             <input
               ref={commentInputRef}
               type="text"
               {...register("comment", { required: true })}
               className={styles.commentInput}
             />
-            <button type="submit" className={styles.commentSubmitBtn}>Send</button>
+            <button type="submit" className={styles.commentSubmitBtn}>
+              Send
+            </button>
           </form>
         )}
       </div>
@@ -109,20 +114,16 @@ export default function Card({
       <p className={styles.likes}>{`${101824} likes`}</p>
       <div className={styles.commentsWrapper} ref={textRef}>
         {commentElements}
-
-        {comments.length > 3 && (
-          <Link
-            to={`/posts/${item.id}/comment`}
-            className={styles.commentsFooter}
-          >
-            {`View all comments (${comments.length})`}
-          </Link>
-        )}
       </div>
       {isTextOverflowed && (
         <p className={styles.readMore} onClick={handleReadMore}>
           ...more
         </p>
+      )}
+      {!isTextOverflowed && comments.length > 2 && (
+        <Link to={`/posts/${item.id}`} className={styles.commentsFooter}>
+          {`View all comments (${item.totalComments})`}
+        </Link>
       )}
     </div>
   );

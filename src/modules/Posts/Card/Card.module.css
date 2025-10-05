@@ -51,7 +51,7 @@
 .controlsWrapper {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  /* gap: 1rem; */
 }
 .controlLink {
 }
@@ -59,7 +59,6 @@
   width: 1.25rem;
   max-height: 1.25rem;
 }
-
 .controlButton {
   border: none;
   background-color: #fff;
@@ -113,12 +112,15 @@
   -webkit-box-orient: vertical;
   display: block;
   display: -webkit-box;
-  overflow: hidden;
+  overflow-y: hidden;
+  overflow-x: hidden;
   text-overflow: ellipsis;
   -webkit-line-clamp: 10;
 }
 .commentsWrapper.expanded {
-  overflow: visible;
+  max-height: 5rem;
+  overflow-y: visible;
+  /* overflow-y: visible; */
 }
 .readMore {
   color: var(--color-text-secondary);
