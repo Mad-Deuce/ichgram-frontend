@@ -2,8 +2,7 @@ import * as yup from "yup";
 
 export const defaultValues = {
   image: null,
-  title: "",
-  content: "",
+  comment: "",
 };
 
 export const fields = {
@@ -11,15 +10,10 @@ export const fields = {
     name: "image",
     type: "file",
   },
-  title: {
-    name: "title",
+  comment: {
+    name: "comment",
     type: "text",
-    placeholder: "title",
-  },
-  content: {
-    name: "content",
-    type: "text",
-    placeholder: "Input text there...",
+    placeholder: "Input comment text there...",
   }
 };
 

@@ -56,7 +56,7 @@ export default function CreatePostForm() {
           />
         </div>
         <div className={styles.textEditorWrapper}>
-          <TextEditor register={register} name={"content"} reset={reset} />
+          <TextEditor register={register} name={fields.comment.name} reset={reset} />
         </div>
         <div className={styles.messageWrapper}>
           <LoadingErrorOutput

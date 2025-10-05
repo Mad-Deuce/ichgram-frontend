@@ -13,17 +13,14 @@ export default function ConfirmPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const token = searchParams.get("token");
-
-  const { state, error, loading } = useFetch({
-    request: () => confirmEmailApi(token),
-    initialState: null,
-  });
+  const { state, error, loading, fetchData } = useFetch();
 
   useEffect(() => {
+    fetchData(() => confirmEmailApi(token));
     setTimeout(() => {
       navigate("/auth/login");
     }, 10000);
-  }, [state, navigate]);
+  }, []);
 
   return (
     <div className={styles.confirmPage}>

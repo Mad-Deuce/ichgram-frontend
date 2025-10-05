@@ -39,7 +39,7 @@ const authSlice = createSlice({
                 store.message = payload.message;
             })
             .addCase(getCurrentUser.rejected, (store, { payload }) => {
-                // store.user = null;
+                store.user = null;
                 rejected(store, { payload })
             })
 
