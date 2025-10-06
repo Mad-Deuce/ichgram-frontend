@@ -49,7 +49,7 @@ export default function Card({ className, item, likePost, sendComment }) {
   const commentElements = comments.map((item) => {
     return (
       <p key={item.id} className={styles.comment}>
-        <Link className={styles.commentAuthor}>{item.user.username}</Link>{" "}
+        <Link className={styles.commentAuthor}>{item.user?.username}</Link>{" "}
         <span className={styles.commentText}>{item.text}</span>
       </p>
     );
@@ -93,25 +93,25 @@ export default function Card({ className, item, likePost, sendComment }) {
         >
           <CommentIcon className={styles.controlIcon} />
         </button>
-        {showCommentForm && (
-          <form
-            onSubmit={handleSubmit(handleOnSubmitComment)}
-            className={styles.commentForm}
-          >
-            <input
-              ref={commentInputRef}
-              type="text"
-              {...register("comment", { required: true })}
-              className={styles.commentInput}
-            />
-            <button type="submit" className={styles.commentSubmitBtn}>
-              Send
-            </button>
-          </form>
-        )}
       </div>
 
       <p className={styles.likes}>{`${101824} likes`}</p>
+      {showCommentForm && (
+        <form
+          onSubmit={handleSubmit(handleOnSubmitComment)}
+          className={styles.commentForm}
+        >
+          <input
+            ref={commentInputRef}
+            type="text"
+            {...register("comment", { required: true })}
+            className={styles.commentInput}
+          />
+          <button type="submit" className={styles.commentSubmitBtn}>
+            Send
+          </button>
+        </form>
+      )}
       <div className={styles.commentsWrapper} ref={textRef}>
         {commentElements}
       </div>
