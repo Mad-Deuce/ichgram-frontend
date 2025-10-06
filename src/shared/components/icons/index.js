@@ -9,4 +9,4 @@ export {default as SaveIcon} from "./SaveIcon";
 export {default as SearchIcon} from "./SearchIcon";
 export {default as SmileIcon} from "./SmileIcon";
 export {default as TelegramIcon} from "./TelegramIcon";
-export {default as ConfirmIcon} from "./ConfirmIcon";
+export {default as EndIcon} from "./EndIcon";

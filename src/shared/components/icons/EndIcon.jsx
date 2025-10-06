@@ -1,4 +1,4 @@
-export default function ConfirmIcon({ className }) {
+export default function EndIcon({ className }) {
   return (
     <svg
       width="100"
@@ -29,7 +29,7 @@ export default function ConfirmIcon({ className }) {
         fill="none"
         stroke="url(#Gradient1)"
         strokeWidth="2.3"
-		strokeLinecap="round"
+        strokeLinecap="round"
       />
     </svg>
   );
