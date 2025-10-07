@@ -48,6 +48,7 @@ export default function Posts({ posts = [] }) {
 
   const likePost = (postId) => {
     // fetchData(() => likePostApi({ postId }));
+    // fetchData(() => likePostApi({ postId }));
   };
 
   const elements = state.map((item) => (
