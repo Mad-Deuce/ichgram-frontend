@@ -4,6 +4,7 @@ import LoadingErrorOutput from "/src/shared/components/LoadingErrorOutput/Loadin
 
 import { createCommentApi } from "/src/shared/api/comment-api";
 import { likePostApi } from "/src/shared/api/like-api";
+import { followUserApi } from "../../shared/api/follow-api";
 
 import Card from "./Card/Card";
 
@@ -64,12 +65,46 @@ export default function Posts({ posts = [] }) {
     }
   };
 
-  const elements = state.map((item) => (
+  const followUser = async (targetUserId) => {
+    setLoading(true);
+    setError(null);
+    const { data, error } = await followUserApi({ targetUserId });
+    setLoading(false);
+    if (error) {
+      return setError(error.response?.data?.message || error.message);
+    }
+    setMessage(data.message);
+    setTimeout(() => {
+      setMessage(null);
+    }, 5000);
+    // const postArr = posts.map((post) => {
+    //   if (post.user.id === data.follow.targetUserId)
+    //     post.user.follows.push(data.follow);
+    //   return post;
+    // });
+    // setState([...postArr]);
+    // const postArr = posts.find((item) => item.id === data?.like.postId);
+    // if (post) {
+    setState((prev) => {
+      const postArr = prev.map((post) => {
+        if (post.user.id === data.follow.targetUserId)
+          post.user.followers.push(data.follow);
+        return post;
+      });
+      console.log("postArr: ", postArr);
+      return prev;
+      // return postArr;
+    });
+    // }
+  };
+
+  const elements = state.map((post) => (
     <Card
-      key={item.id}
-      item={item}
+      key={post.id}
+      post={post}
       sendComment={sendComment}
       likePost={likePost}
+      followUser={followUser}
     />
   ));
 

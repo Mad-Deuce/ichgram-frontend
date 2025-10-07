@@ -12,7 +12,13 @@ import styles from "./Card.module.css";
 
 const { VITE_API_URL: baseURL } = import.meta.env;
 
-export default function Card({ className, item, likePost, sendComment }) {
+export default function Card({
+  className,
+  post,
+  likePost,
+  sendComment,
+  followUser,
+}) {
   const fullClassName = `${styles.card} ${className} `;
 
   const [isTextOverflowed, setIsTextOverflowed] = useState(false);
@@ -21,6 +27,11 @@ export default function Card({ className, item, likePost, sendComment }) {
   const textRef = useRef(null);
   const currentUser = useSelector(selectUser);
   const { register, handleSubmit } = useForm();
+  const isPostUserFollowed = post.user.followers.some(
+    (follow) => follow.followerUserId === currentUser.id
+  );
+  console.log("post: ", post);
+  console.log("isPostUserFollowed: ", isPostUserFollowed);
 
   useEffect(() => {
     setIsTextOverflowed(
@@ -28,16 +39,21 @@ export default function Card({ className, item, likePost, sendComment }) {
     );
   }, []);
 
+  const handleFollowButtonClick = () => {
+    if (post.userId === currentUser.id) return;
+    followUser(post.userId);
+  };
+
   const handleLikeButtonClick = () => {
-    // if (item.userId === currentUser.id) return;      // !!!!! not remove
-    if (item.isLiked) return;
-    likePost(item.id);
+    // if (post.userId === currentUser.id) return;      // !!!!! not remove
+    if (post.isLiked) return;
+    likePost(post.id);
   };
   const handleCommentButtonClick = () => {
     setShowCommentForm((prev) => !prev);
   };
   const handleOnSubmitComment = ({ comment }) => {
-    sendComment({ postId: item.id, text: comment });
+    sendComment({ postId: post.id, text: comment });
   };
 
   const handleReadMore = () => {
@@ -45,7 +61,7 @@ export default function Card({ className, item, likePost, sendComment }) {
     setIsTextOverflowed(false);
   };
 
-  const { comments } = item;
+  const { comments } = post;
 
   const commentElements = comments.map((item) => {
     return (
@@ -62,21 +78,27 @@ export default function Card({ className, item, likePost, sendComment }) {
         <div className={styles.avatarWrapper}>
           <img
             className={styles.avatarWrapper}
-            src={`${baseURL}/${item.user.avatar}`}
+            src={`${baseURL}/${post.user.avatar}`}
             alt=""
           />
         </div>
-        <Link to={`/users/${item.user.id}`} className={styles.username}>
-          {item.user.username ? item.user.username : "Sashaa"}
+        <Link to={`/users/${post.user.id}`} className={styles.username}>
+          {post.user.username ? post.user.username : "Sashaa"}
         </Link>
-        <p className={styles.date}>{toNotificationFormat(item.updatedAt)}</p>
-        {currentUser.id !== item.user.id && (
-          <Link className={styles.followLink}>follow</Link>
+        <p className={styles.date}>{toNotificationFormat(post.updatedAt)}</p>
+        {currentUser.id !== post.user.id && !isPostUserFollowed && (
+          <button
+            className={styles.followBtn}
+            onClick={handleFollowButtonClick}
+          >
+            follow
+          </button>
         )}
       </div>
-      <Link to={`/posts/${item.id}`} className={styles.imgWrapper}>
+
+      <Link to={`/posts/${post.id}`} className={styles.imgWrapper}>
         <img
-          src={`${baseURL}/${item.image}`}
+          src={`${baseURL}/${post.image}`}
           alt="post_img"
           className={styles.img}
         />
@@ -87,7 +109,7 @@ export default function Card({ className, item, likePost, sendComment }) {
           onClick={handleLikeButtonClick}
         >
           <LikeIcon
-            className={`${styles.controlIcon} ${item.isLiked && styles.filled}`}
+            className={`${styles.controlIcon} ${post.isLiked && styles.filled}`}
           />
         </button>
         <button
@@ -102,7 +124,7 @@ export default function Card({ className, item, likePost, sendComment }) {
         </button>
       </div>
 
-      <p className={styles.likes}>{`${item.totalLikes} likes`}</p>
+      <p className={styles.likes}>{`${post.totalLikes} likes`}</p>
       {showCommentForm && (
         <form
           onSubmit={handleSubmit(handleOnSubmitComment)}
@@ -128,8 +150,8 @@ export default function Card({ className, item, likePost, sendComment }) {
         </p>
       )}
       {!isTextOverflowed && comments.length > 2 && (
-        <Link to={`/posts/${item.id}`} className={styles.commentsFooter}>
-          {`View all comments (${item.totalComments})`}
+        <Link to={`/posts/${post.id}`} className={styles.commentsFooter}>
+          {`View all comments (${post.totalComments})`}
         </Link>
       )}
     </div>

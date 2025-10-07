@@ -1,5 +1,4 @@
 .card {
-  /* max-height: 280px; */
   border-bottom: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
@@ -11,6 +10,7 @@
 .header {
   display: flex;
   gap: 0.75rem;
+  align-items: center;
 }
 .avatarWrapper {
   border-radius: 50%;
@@ -30,15 +30,19 @@
   font-size: 0.75rem;
   color: var(--color-text-secondary);
 }
-.followLink {
+.followBtn {
+  cursor: pointer;
   text-decoration: none;
   font-size: 0.75rem;
   font-weight: 600;
+  padding: 0;
+  background-color: #fff;
+  height: fit-content;
+  border: none;
   color: var(--color-link-primary);
 }
 
 .imgWrapper {
-  /* height: 100%; */
   width: 100%;
 }
 .img {
@@ -51,7 +55,6 @@
 .controlsWrapper {
   display: flex;
   align-items: center;
-  /* gap: 1rem; */
 }
 .controlLink {
 }
@@ -123,7 +126,6 @@
 .commentsWrapper.expanded {
   max-height: 5rem;
   overflow-y: visible;
-  /* overflow-y: visible; */
 }
 .readMore {
   color: var(--color-text-secondary);
