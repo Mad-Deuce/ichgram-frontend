@@ -64,6 +64,9 @@
   background-color: #fff;
   cursor: pointer;
 }
+.controlIcon.filled {
+  fill: #000;
+}
 .commentForm {
   width: 100%;
   display: flex;

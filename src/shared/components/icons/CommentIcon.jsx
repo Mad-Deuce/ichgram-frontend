@@ -13,6 +13,7 @@ export default function CommentIcon({ className }) {
         stroke="black"
         strokeWidth="1.69486"
         strokeLinejoin="round"
+        className={className}
       />
     </svg>
   );

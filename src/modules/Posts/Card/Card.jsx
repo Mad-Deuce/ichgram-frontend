@@ -29,7 +29,9 @@ export default function Card({ className, item, likePost, sendComment }) {
   }, []);
 
   const handleLikeButtonClick = () => {
-    if (!item.isLiked) likePost(item.id);
+    // if (item.userId === currentUser.id) return;      // !!!!! not remove
+    if (item.isLiked) return;
+    likePost(item.id);
   };
   const handleCommentButtonClick = () => {
     setShowCommentForm((prev) => !prev);
@@ -84,17 +86,23 @@ export default function Card({ className, item, likePost, sendComment }) {
           className={styles.controlButton}
           onClick={handleLikeButtonClick}
         >
-          <LikeIcon className={styles.controlIcon} />
+          <LikeIcon
+            className={`${styles.controlIcon} ${item.isLiked && styles.filled}`}
+          />
         </button>
         <button
           className={styles.controlButton}
           onClick={handleCommentButtonClick}
         >
-          <CommentIcon className={styles.controlIcon} />
+          <CommentIcon
+            className={`${styles.controlIcon} ${
+              showCommentForm && styles.filled
+            }`}
+          />
         </button>
       </div>
 
-      <p className={styles.likes}>{`${101824} likes`}</p>
+      <p className={styles.likes}>{`${item.totalLikes} likes`}</p>
       {showCommentForm && (
         <form
           onSubmit={handleSubmit(handleOnSubmitComment)}
