@@ -93,9 +93,7 @@ export default function Posts({ posts = [] }) {
       });
       console.log("postArr: ", postArr);
       return prev;
-      // return postArr;
     });
-    // }
   };
 
   const elements = state.map((post) => (

@@ -1,58 +1,41 @@
 import { useEffect, useState } from "react";
 import { DateTime } from "luxon";
 
+import LoadingErrorOutput from "/src/shared/components/LoadingErrorOutput/LoadingErrorOutput";
+
+import { getLastNotificationsApi } from "../../shared/api/notification-api";
+
 import Card from "./Card/Card";
 
 import styles from "./Notifications.module.css";
 
-const nots = [
-  {
-    user: { id: 1, username: "sashaa", avatar: "/public/avatar.jpg" },
-    action: "liked your photo",
-    date: DateTime.now().minus({ days: 2 }).toString(),
-    post: { img: "/public/photo.jpg", id: 1 },
-  },
-  {
-    user: { id: 1, username: "sashaa", avatar: "/public/avatar.jpg" },
-    action: "commented your photo",
-    date: DateTime.now().minus({ weeks: 2 }).toString(),
-    post: { img: "/public/photo.jpg", id: 1 },
-  },
-  {
-    user: { id: 1, username: "sashaa", avatar: "/public/avatar.jpg" },
-    action: "started following",
-    date: DateTime.now().minus({ months: 2 }).toString(),
-    post: { img: "/public/photo.jpg", id: 1 },
-  },
-  {
-    user: { id: 1, username: "sashaa", avatar: "/public/avatar.jpg" },
-    action: "started following",
-    date: DateTime.now().minus({ years: 2 }).toString(),
-    post: { img: "/public/photo.jpg", id: 1 },
-  },
-  {
-    user: { id: 1, username: "sashaa", avatar: "/public/avatar.jpg" },
-    action: "started following",
-    date: DateTime.now().minus({ hours: 2 }).toString(),
-    post: { img: "/public/photo.jpg", id: 1 },
-  },
-  {
-    user: { id: 1, username: "sashaa", avatar: "/public/avatar.jpg" },
-    action: "started following",
-    date: DateTime.now().minus({ minutes: 2 }).toString(),
-    post: { img: "/public/photo.jpg", id: 1 },
-  },
-];
-
 export default function Notifications() {
   const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
-    setNotifications(nots);
+    const fetchData = async () => {
+      setError(null);
+      setLoading(true);
+      const { data, error } = await getLastNotificationsApi();
+      setLoading(false);
+      if (error)
+        return setError(
+          setError(error.response?.data?.message || error.message)
+        );
+      setNotifications(data.notifications);
+      setMessage(data.message);
+      setTimeout(() => {
+        setMessage(null);
+      }, 10000);
+    };
+    fetchData();
   }, []);
 
-  const elements = notifications.map((item, idx) => (
-    <Card key={idx} item={item} />
+  const elements = notifications?.map((notification) => (
+    <Card key={notification.id} notification={notification} />
   ));
 
   return (
@@ -60,6 +43,7 @@ export default function Notifications() {
       <h1 className={styles.title}>Notifications</h1>
       <h2 className={styles.subTitle}>New</h2>
       {elements}
+      <LoadingErrorOutput error={error} loading={loading} message={message} />
     </div>
   );
 }
