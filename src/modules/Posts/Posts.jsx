@@ -58,7 +58,7 @@ export default function Posts({ posts = [] }) {
     const post = posts.find((item) => item.id === data?.like.postId);
     if (post) {
       setState((prev) => {
-        post.totalLikes += 1;
+        post.totalLikes = Number(post.totalLikes) + 1;
         post.isLiked = true;
         return [...prev];
       });
