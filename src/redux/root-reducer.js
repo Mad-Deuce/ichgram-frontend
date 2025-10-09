@@ -4,6 +4,7 @@ import storage from "redux-persist/lib/storage";
 
 import authReducer from "./auth/auth-slice";
 import modalReducer from "./modal/modal-slice";
+import recentReducer from "./recent/recent-slice"
 
 const persistConfig = {
     key: "root",
@@ -15,7 +16,8 @@ const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 
 const rootReducer = combineReducers({
     auth: persistedAuthReducer,
-    modal: modalReducer
+    modal: modalReducer,
+    recent: recentReducer,
 });
 
 

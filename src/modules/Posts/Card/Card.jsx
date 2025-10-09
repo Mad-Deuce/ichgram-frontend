@@ -30,8 +30,6 @@ export default function Card({
   const isPostUserFollowed = post.user.followers.some(
     (follow) => follow.followerUserId === currentUser.id
   );
-  console.log("post: ", post);
-  console.log("isPostUserFollowed: ", isPostUserFollowed);
 
   useEffect(() => {
     setIsTextOverflowed(

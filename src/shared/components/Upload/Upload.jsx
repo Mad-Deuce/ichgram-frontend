@@ -19,8 +19,6 @@ export default function Upload({
   }, [reset]);
 
   const handleOnFileUploadChange = (event) => {
-    // console.log(event);
-
     const fileSrc = URL.createObjectURL(event.target.files[0]);
     setFileSrc(fileSrc);
     setValue(name, event.target.files[0]);

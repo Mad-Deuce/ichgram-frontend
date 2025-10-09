@@ -1,16 +1,27 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import { addUser } from "/src/redux/recent/recent-slice";
 
 import styles from "./Card.module.css";
 
-export default function Card({ item = {} }) {
+export default function Card({ item = {}, recent = false }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (!recent) {
+      dispatch(addUser(item));
+    }
+    navigate(`/profile/${item.id}`);
+  };
+
   return (
-    <Link to={`/profiles/${item.id}`} className={styles.card}>
-        <div className={styles.avatarWrapper}>
-          <img src={item.avatar} alt="" className={styles.avatar} />
-        </div>
-        <span to={`/profiles/${item.id}`} className={styles.username}>
-          {item.username}
-        </span>
-    </Link>
+    <button type="button" className={styles.card} onClick={handleClick}>
+      <div className={styles.avatarWrapper}>
+        <img src={item.avatar} alt="" className={styles.avatar} />
+      </div>
+      <span className={styles.username}>{item.username}</span>
+    </button>
   );
 }

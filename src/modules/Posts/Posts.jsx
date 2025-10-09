@@ -77,21 +77,12 @@ export default function Posts({ posts = [] }) {
     setTimeout(() => {
       setMessage(null);
     }, 5000);
-    // const postArr = posts.map((post) => {
-    //   if (post.user.id === data.follow.targetUserId)
-    //     post.user.follows.push(data.follow);
-    //   return post;
-    // });
-    // setState([...postArr]);
-    // const postArr = posts.find((item) => item.id === data?.like.postId);
-    // if (post) {
     setState((prev) => {
-      const postArr = prev.map((post) => {
+      prev.map((post) => {
         if (post.user.id === data.follow.targetUserId)
           post.user.followers.push(data.follow);
         return post;
       });
-      console.log("postArr: ", postArr);
       return prev;
     });
   };
