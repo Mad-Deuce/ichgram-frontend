@@ -16,7 +16,7 @@ const PrivateRoute = () => {
       <div style={{ gridArea: "nb" }}>
         <NavBar />
       </div>
-      <div style={{ gridArea: "main", position: "relative" }}>
+      <div style={{ gridArea: "main", position: "relative"}}>
         <Outlet />
         <Modal />
       </div>

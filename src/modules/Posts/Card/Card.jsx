@@ -27,7 +27,7 @@ export default function Card({
   const textRef = useRef(null);
   const currentUser = useSelector(selectUser);
   const { register, handleSubmit } = useForm();
-  const isPostUserFollowed = post.user.followers.some(
+  const isPostUserFollowed = post.user?.followers.some(
     (follow) => follow.followerUserId === currentUser.id
   );
 
@@ -61,7 +61,7 @@ export default function Card({
 
   const { comments } = post;
 
-  const commentElements = comments.map((item) => {
+  const commentElements = comments?.map((item) => {
     return (
       <p key={item.id} className={styles.comment}>
         <Link className={styles.commentAuthor}>{item.user?.username}</Link>{" "}
@@ -76,11 +76,11 @@ export default function Card({
         <div className={styles.avatarWrapper}>
           <img
             className={styles.avatarWrapper}
-            src={`${baseURL}/${post.user.avatar}`}
+            src={`${baseURL}/${post.user?.avatar}`}
             alt=""
           />
         </div>
-        <Link to={`/users/${post.user.id}`} className={styles.username}>
+        <Link to={`/users/${post.user?.id}`} className={styles.username}>
           {post.user.username ? post.user.username : "Sashaa"}
         </Link>
         <p className={styles.date}>{toNotificationFormat(post.updatedAt)}</p>
@@ -122,7 +122,7 @@ export default function Card({
         </button>
       </div>
 
-      <p className={styles.likes}>{`${post.totalLikes} likes`}</p>
+      {post.totalLikes>0 && <p className={styles.likes}>{`${post.totalLikes} likes`}</p>}
       {showCommentForm && (
         <form
           onSubmit={handleSubmit(handleOnSubmitComment)}
@@ -147,7 +147,7 @@ export default function Card({
           ...more
         </p>
       )}
-      {!isTextOverflowed && comments.length > 2 && (
+      {!isTextOverflowed && comments?.length > 2 && (
         <Link to={`/posts/${post.id}`} className={styles.commentsFooter}>
           {`View all comments (${post.totalComments})`}
         </Link>

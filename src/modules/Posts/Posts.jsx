@@ -36,6 +36,7 @@ export default function Posts({ posts = [] }) {
     if (post) {
       setState((prev) => {
         post.totalComments += 1;
+        if (!post.comments) post.comments = [];
         post.comments.unshift(data?.comment);
         post.comments = post.comments.slice(0, 4);
         return [...prev];

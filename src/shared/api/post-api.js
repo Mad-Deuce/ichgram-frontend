@@ -8,3 +8,7 @@ export const createPostApi = fetchDecorator((payload) => {
 export const getLastUpdatedPostsApi = fetchDecorator(() => {
     return instance.get("posts/updates")
 });
+
+export const getPostsApi = fetchDecorator(() => {
+    return instance.get("posts")
+});
