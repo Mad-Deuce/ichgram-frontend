@@ -26,7 +26,7 @@ export default function Card({ notification = {} }) {
     <div className={styles.card}>
       <div className={styles.wrapper}>
         <Link
-          to={`/profiles/${notification.authorUser.id}`}
+          to={`/profile/${notification.authorUser.id}`}
           className={styles.avatarWrapper}
         >
           <img
@@ -37,7 +37,7 @@ export default function Card({ notification = {} }) {
         </Link>
         <div className={styles.infoWrapper}>
           <Link
-            to={`/profiles/${notification.authorUser.id}`}
+            to={`/profile/${notification.authorUser.id}`}
             className={styles.username}
           >
             {notification.authorUser.username}

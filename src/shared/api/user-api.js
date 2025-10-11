@@ -5,3 +5,6 @@ export const findUsersApi = fetchDecorator((payload) => {
     return instance.get("users/search", { params: { ...payload } })
 });
 
+export const getUserByIdApi = fetchDecorator((payload) => {
+    return instance.get(`users/${payload}`)
+});

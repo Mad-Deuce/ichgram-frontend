@@ -4,18 +4,19 @@
   display: grid;
   gap: 0.25rem;
   grid-template-columns: repeat(3, 1fr);
-  /* grid-template-rows: repeat(3, 1fr); */
   grid-auto-rows: 1fr;
   counter-reset: div;
 
-   height: 100%;
-    overflow-y: auto;
+  height: 100%;
+  overflow-y: auto;
 }
 
-.explore div:nth-child(10n+3 ),
-.explore div:nth-child(10n+6 )
- {
-  grid-row: auto /span 2;
+.explore div:nth-child(10n + 3),
+.explore div:nth-child(10n + 6) {
+  grid-row: auto / span 2;
 }
 
-
+.explore.profile div:nth-child(10n + 3),
+.explore.profile div:nth-child(10n + 6) {
+  grid-row: auto / span 1;
+}

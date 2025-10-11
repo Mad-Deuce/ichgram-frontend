@@ -64,7 +64,7 @@ export default function Card({
   const commentElements = comments?.map((item) => {
     return (
       <p key={item.id} className={styles.comment}>
-        <Link className={styles.commentAuthor}>{item.user?.username}</Link>{" "}
+        <Link to={`profile/${item.userId}`} className={styles.commentAuthor}>{item.user?.username}</Link>{" "}
         <span className={styles.commentText}>{item.text}</span>
       </p>
     );
@@ -80,7 +80,7 @@ export default function Card({
             alt=""
           />
         </div>
-        <Link to={`/users/${post.user?.id}`} className={styles.username}>
+        <Link to={`/profile/${post.userId}`} className={styles.username}>
           {post.user.username ? post.user.username : "Sashaa"}
         </Link>
         <p className={styles.date}>{toNotificationFormat(post.updatedAt)}</p>

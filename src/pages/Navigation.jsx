@@ -9,21 +9,22 @@ import AuthConfirmPage from "/src/pages/AuthConfirmPage/AuthConfirmPage";
 
 import HomePage from "/src/pages/HomePage/HomePage";
 import ProfilePage from "/src/pages/ProfilePage/ProfilePage";
+import ProfileEditPage from "/src/pages/ProfileEditPage/ProfileEditPage";
 import ExplorePage from "/src/pages/ExplorePage/ExplorePage";
 import MessagePage from "/src/pages/MessagePage/MessagePage";
 
 import PublicRoute from "/src/modules/PublicRoute/PublicRoute";
 import PrivateRoute from "/src/modules/PrivateRoute/PrivateRoute";
 
-
 export default function Navigation() {
   return (
     <Routes>
       <Route element={<PrivateRoute />}>
         <Route path="/" element={<HomePage />} />
-        <Route path="/profiles" element={<ProfilePage />} />
         <Route path="/explore" element={<ExplorePage />} />
-        <Route path="/messages" element={<MessagePage />} />
+        <Route path="/messages/:id" element={<MessagePage />} />
+        <Route path="/profile/:id" element={<ProfilePage />} />
+        <Route path="/profile/:id/edit" element={<ProfileEditPage />} />
       </Route>
       <Route path="/auth" element={<PublicRoute />}>
         <Route path="login" element={<AuthLoginPage />} />

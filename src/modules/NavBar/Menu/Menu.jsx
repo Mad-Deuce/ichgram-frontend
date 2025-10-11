@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { selectUser } from "/src/redux/auth/auth-selectors";
@@ -42,10 +42,20 @@ export default function Menu({
           />
           <p className={styles.title}>{title}</p>
         </Link>
-        {!icon && <p className={styles.title}>{user.email}</p>}
       </li>
     );
   });
 
-  return <ul className={fullClassName}>{elements}</ul>;
+  return (
+    <ul className={fullClassName}>
+      {elements}
+      <Link to={`profile/${user?.id}`} className={styles.profile}>
+        <div className={styles.avatarWrapper}>
+          <img src={user.avatar} className={styles.avatar} />
+        </div>
+
+        <p className={styles.title}>Profile</p>
+      </Link>
+    </ul>
+  );
 }
