@@ -71,6 +71,8 @@ export default function ViewPost({ postId }) {
     const post = postData.post;
     if (post) {
       setState((prev) => {
+        if (!post?.totalComments) post.totalComments = 0;
+
         post.totalComments += 1;
         if (!post.comments) post.comments = [];
         post.comments.unshift(data?.comment);
@@ -96,6 +98,8 @@ export default function ViewPost({ postId }) {
     const post = postData.post;
     if (post) {
       setState((prev) => {
+        if (!post?.totalLikes) post.totalLikes = 0;
+
         post.totalLikes = Number(post.totalLikes) + 1;
         post.isLiked = true;
         return { ...prev };
