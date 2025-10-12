@@ -9,6 +9,16 @@
   gap: 6rem;
 }
 
+.avatarWrapper{
+  max-width: 100%;
+  max-height: 100%;
+}
+.avatar{
+  max-width: 100%;
+  object-fit: cover;
+  /* aspect-ratio: 1/1; */
+}
+
 .infoWrapper {
   display: flex;
   flex-direction: column;

@@ -1,1 +1,4 @@
-.profileEditPage {}
+.profileEditPage {
+  height: 100%;
+  position: relative;
+}

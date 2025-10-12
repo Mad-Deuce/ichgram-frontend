@@ -8,3 +8,7 @@ export const findUsersApi = fetchDecorator((payload) => {
 export const getUserByIdApi = fetchDecorator((payload) => {
     return instance.get(`users/${payload}`)
 });
+
+export const updateUserApi = fetchDecorator((payload) => {
+    return instance.putForm("users", { ...payload })
+});
