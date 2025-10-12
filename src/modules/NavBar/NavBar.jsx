@@ -18,11 +18,11 @@ export default function NavBar() {
   const dispatch = useDispatch();
   const { childrenType } = useSelector(selectModal);
 
-  const toggleModalHandle = (title) => {
+  const toggleModalHandle = (title, id = null) => {
     if (title === childrenType) {
       dispatch(toggleModal());
     } else {
-      dispatch(showModal(title));
+      dispatch(showModal({ type: title,  id }));
     }
   };
   const hideModalHandle = () => {

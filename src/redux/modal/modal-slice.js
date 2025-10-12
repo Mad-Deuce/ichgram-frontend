@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const modalState = {
     hidden: true,
     childrenType: null,
+    childrenId: null
 };
 
 const modalSlice = createSlice({
@@ -11,7 +12,8 @@ const modalSlice = createSlice({
     reducers: {
         showModal: (store, { payload }) => {
             store.hidden = false;
-            store.childrenType = payload
+            store.childrenType = payload.type
+            store.childrenId = payload.id
         },
         hideModal: (store) => {
             store.hidden = true;

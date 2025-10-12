@@ -16,3 +16,7 @@ export const getPostsApi = fetchDecorator(() => {
 export const findPostsApi = fetchDecorator((payload) => {
     return instance.get("posts", { params: { ...payload } })
 });
+
+export const getPostByIdApi = fetchDecorator((payload) => {
+    return instance.get(`posts/${payload}`)
+});
