@@ -18,6 +18,7 @@ export default function Card({
   likePost,
   sendComment,
   followUser,
+  showPost,
 }) {
   const fullClassName = `${styles.card} ${className} `;
 
@@ -94,13 +95,13 @@ export default function Card({
         )}
       </div>
 
-      <Link to={`/posts/${post.id}`} className={styles.imgWrapper}>
+      <button to={`/posts/${post.id}`} className={styles.imgWrapper} onClick={()=>showPost(post.id)}>
         <img
           src={`${baseURL}/${post.image}`}
           alt="post_img"
           className={styles.img}
         />
-      </Link>
+      </button>
       <div className={styles.controlsWrapper}>
         <button
           className={styles.controlButton}

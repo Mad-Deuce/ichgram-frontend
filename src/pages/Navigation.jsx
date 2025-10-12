@@ -13,6 +13,11 @@ import ProfileEditPage from "/src/pages/ProfileEditPage/ProfileEditPage";
 import ExplorePage from "/src/pages/ExplorePage/ExplorePage";
 import MessagePage from "/src/pages/MessagePage/MessagePage";
 
+import LearnMorePage from "/src/pages/LearnMorePage/LearnMorePage";
+import TermsPage from "/src/pages/TermsPage/TermsPage";
+import PrivacyPolicyPage from "/src/pages/PrivacyPolicyPage/PrivacyPolicyPage";
+import CookiePolicyPage from "/src/pages/CookiePolicyPage/CookiePolicyPage";
+
 import PublicRoute from "/src/modules/PublicRoute/PublicRoute";
 import PrivateRoute from "/src/modules/PrivateRoute/PrivateRoute";
 
@@ -32,6 +37,11 @@ export default function Navigation() {
         <Route path="reset" element={<AuthResetPasswordPage />} />
         <Route path="verify" element={<AuthConfirmPage />} />
       </Route>
+
+      <Route path="/learn-more" element={<LearnMorePage />} />
+      <Route path="/terms" element={<TermsPage />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+      <Route path="/cookies-policy" element={<CookiePolicyPage />} />
 
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

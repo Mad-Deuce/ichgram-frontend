@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+
+import { showModal } from "/src/redux/modal/modal-slice";
 
 import LoadingErrorOutput from "/src/shared/components/LoadingErrorOutput/LoadingErrorOutput";
 
@@ -15,6 +18,12 @@ export default function Posts({ posts = [] }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
+
+  const dispatch = useDispatch();
+
+  const showPost = (postId) => {
+    dispatch(showModal({ type: "Post", id: postId }));
+  };
 
   useEffect(() => {
     setState(posts);
@@ -95,6 +104,7 @@ export default function Posts({ posts = [] }) {
       sendComment={sendComment}
       likePost={likePost}
       followUser={followUser}
+      showPost={showPost}
     />
   ));
 

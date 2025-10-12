@@ -7,6 +7,8 @@ import menuItems from "./menuItems.js";
 
 import styles from "./Menu.module.css";
 
+const { VITE_API_URL: baseURL } = import.meta.env;
+
 export default function Menu({
   className,
   variant = "",
@@ -51,7 +53,7 @@ export default function Menu({
       {elements}
       <Link to={`profile/${user?.id}`} className={styles.profile}>
         <div className={styles.avatarWrapper}>
-          <img src={user.avatar} className={styles.avatar} />
+          <img src={`${baseURL}/${user.avatar}`} className={styles.avatar} />
         </div>
 
         <p className={styles.title}>Profile</p>
