@@ -11,7 +11,7 @@ import HomePage from "/src/pages/HomePage/HomePage";
 import ProfilePage from "/src/pages/ProfilePage/ProfilePage";
 import ProfileEditPage from "/src/pages/ProfileEditPage/ProfileEditPage";
 import ExplorePage from "/src/pages/ExplorePage/ExplorePage";
-import MessagePage from "/src/pages/MessagePage/MessagePage";
+import ChatPage from "/src/pages/ChatPage/ChatPage";
 
 import LearnMorePage from "/src/pages/LearnMorePage/LearnMorePage";
 import TermsPage from "/src/pages/TermsPage/TermsPage";
@@ -27,7 +27,8 @@ export default function Navigation() {
       <Route element={<PrivateRoute />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/explore" element={<ExplorePage />} />
-        <Route path="/messages/:id" element={<MessagePage />} />
+        <Route path="/messages" element={<ChatPage />} />
+        <Route path="/messages/:id" element={<ChatPage />} />
         <Route path="/profile/:id" element={<ProfilePage />} />
         <Route path="/profile/:id/edit" element={<ProfileEditPage />} />
       </Route>
