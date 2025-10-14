@@ -20,7 +20,6 @@ export default function Search() {
   const [error, setError] = useState(null);
   const [foundedUsers, setFoundedUsers] = useState([]);
   const recentUsers = useSelector(selectRecentUsers);
-
   const {
     register,
     handleSubmit,
@@ -29,6 +28,10 @@ export default function Search() {
     resolver: yupResolver(registerSchema),
     mode: "onChange",
   });
+
+  const handleOnClick = (event) => {
+    event.stopPropagation();
+  };
 
   const handleOnChange = async (values) => {
     setLoading(true);
@@ -48,7 +51,11 @@ export default function Search() {
   ));
 
   return (
-    <form onChange={handleSubmit(handleOnChange)} className={styles.search}>
+    <form
+      onChange={handleSubmit(handleOnChange)}
+      onClick={handleOnClick}
+      className={styles.search}
+    >
       <h1 className={styles.title}>Search</h1>
       <input
         {...register(fields.username.name)}

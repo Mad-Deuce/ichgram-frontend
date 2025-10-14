@@ -39,7 +39,12 @@ export default function Notifications() {
   ));
 
   return (
-    <div className={styles.notifications}>
+    <div
+      className={styles.notifications}
+      onClick={(event) => {
+        event.stopPropagation();
+      }}
+    >
       <h1 className={styles.title}>Notifications</h1>
       <h2 className={styles.subTitle}>New</h2>
       {elements}

@@ -2,7 +2,7 @@ import instance from "./instance";
 import { fetchDecorator } from "/src/shared/utils/fetchDecorator"
 
 export const createChatApi = fetchDecorator((payload) => {
-    return instance.post("posts", { ...payload })
+    return instance.post("chats", { ...payload })
 });
 
 export const getChatsApi = fetchDecorator(() => {

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { io } from "socket.io-client";
@@ -19,27 +19,9 @@ import styles from "./Messenger.module.css";
 const { VITE_API_URL: baseURL, VITE_WEBSOCKET_URL: socketURL } = import.meta
   .env;
 
-// const socket = io.connect("http://localhost:5000");
-// const socket = io.connect(socketURL);
-
 export default function Messenger({ chat, currentUser }) {
   const { register, handleSubmit, reset } = useForm();
   const msgBoxRef = useRef();
-  const socket = io.connect(`${socketURL}?chatId=${chat.id}`);
-
-  socket.on("connect", function () {
-    console.log("Socket connected", socket.connected);
-  });
-  socket.on("newMessage", (newMessage) => {
-    console.log(newMessage);
-    setState((prev) => {
-      prev.push(newMessage);
-      return [...prev];
-    });
-  });
-  // const memoizedSocket = useMemo(()=>{
-  //   return io.connect(`${socketURL}?chatId=${chat.id}`)
-  // })
 
   const otherUser =
     chat.member1Id == currentUser.id ? chat.member2 : chat.member1;
@@ -54,15 +36,22 @@ export default function Messenger({ chat, currentUser }) {
   );
 
   useEffect(() => {
-     const connectedSockets = io.length;
-     console.log('Number of connected sockets:', connectedSockets);
+    const socket = io.connect(`${socketURL}?chatId=${chat.id}`);
+    socket.on("connect", function () {
+      console.log("Socket connected", socket.connected);
+    });
+    socket.on("newMessage", (newMessage) => {
+      setState((prev) => {
+        prev.push(newMessage);
+        return [...prev];
+      });
+    });
+
     return () => {
-      // console.log("Disconnecting socket...");
-      socket.disconnect(); // Explicitly disconnect the socket
-      // if (socket.connected) {
-      // }
+      socket.disconnect();
+      console.log("Socket connected", socket.connected);
     };
-  });
+  }, [chat.id]);
 
   useEffect(() => {
     msgBoxRef.current.scrollTop = msgBoxRef.current.scrollHeight;
@@ -72,13 +61,9 @@ export default function Messenger({ chat, currentUser }) {
     const message = { ...values, authorId: currentUser.id, chatId: chat.id };
     setError(null);
     setLoading(true);
-    const { data, error } = await createMessageApi(message);
+    const { error } = await createMessageApi(message);
     setLoading(false);
     if (error) return setError(error.response?.data?.message || error.message);
-    // setState((prev) => {
-    //   prev.push(data);
-    //   return [...prev];
-    // });
     reset();
   };
 
@@ -112,7 +97,10 @@ export default function Messenger({ chat, currentUser }) {
         </div>
         <p className={styles.userInfoUsername}>{otherUser?.username}</p>
         <p className={styles.userInfoFullname}>{otherUser?.fullname}</p>
-        <Link to={`/profile/${otherUser.id}`} className={styles.userInfoButton}>
+        <Link
+          to={`/profile/${otherUser?.id}`}
+          className={styles.userInfoButton}
+        >
           View Profile
         </Link>
         <p className={styles.date}>{new Date().toUTCString()}</p>

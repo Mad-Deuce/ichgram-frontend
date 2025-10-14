@@ -27,7 +27,12 @@ export default function CreatePostForm() {
   };
 
   return (
-    <div className={styles.createPost}>
+    <div
+      className={styles.createPost}
+      onClick={(event) => {
+        event.stopPropagation();
+      }}
+    >
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
         <div className={styles.header}>
           <h1 className={styles.title}>Create new post</h1>

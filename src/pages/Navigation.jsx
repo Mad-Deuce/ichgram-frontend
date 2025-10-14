@@ -28,7 +28,7 @@ export default function Navigation() {
         <Route path="/" element={<HomePage />} />
         <Route path="/explore" element={<ExplorePage />} />
         <Route path="/messages" element={<ChatPage />} />
-        <Route path="/messages/:id" element={<ChatPage />} />
+        <Route path="/messages/:member2Id" element={<ChatPage />} />
         <Route path="/profile/:id" element={<ProfilePage />} />
         <Route path="/profile/:id/edit" element={<ProfileEditPage />} />
       </Route>

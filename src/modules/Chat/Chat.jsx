@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { selectUser } from "/src/redux/auth/auth-selectors";
 
@@ -8,9 +8,13 @@ import Messenger from "./Messenger/Messenger";
 
 import styles from "./Chat.module.css";
 
-export default function Chat({ chats }) {
+export default function Chat({ chats, initChat }) {
   const currentUser = useSelector(selectUser);
   const [activeChat, setActiveChat] = useState(null);
+
+  useEffect(() => {
+    setActiveChat(initChat);
+  }, [initChat]);
 
   const handleClickOnChat = (chat) => {
     setActiveChat(chat);
