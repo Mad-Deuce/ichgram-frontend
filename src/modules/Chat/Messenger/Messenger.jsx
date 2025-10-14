@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { io } from "socket.io-client";
 
 import LoadingErrorOutput from "/src/shared/components/LoadingErrorOutput/LoadingErrorOutput";
 import TextField from "/src/shared/components/TextField/TextField";
@@ -15,11 +16,30 @@ import Message from "./Message/Message";
 
 import styles from "./Messenger.module.css";
 
-const { VITE_API_URL: baseURL } = import.meta.env;
+const { VITE_API_URL: baseURL, VITE_WEBSOCKET_URL: socketURL } = import.meta
+  .env;
+
+// const socket = io.connect("http://localhost:5000");
+// const socket = io.connect(socketURL);
 
 export default function Messenger({ chat, currentUser }) {
   const { register, handleSubmit, reset } = useForm();
   const msgBoxRef = useRef();
+  const socket = io.connect(`${socketURL}?chatId=${chat.id}`);
+
+  socket.on("connect", function () {
+    console.log("Socket connected", socket.connected);
+  });
+  socket.on("newMessage", (newMessage) => {
+    console.log(newMessage);
+    setState((prev) => {
+      prev.push(newMessage);
+      return [...prev];
+    });
+  });
+  // const memoizedSocket = useMemo(()=>{
+  //   return io.connect(`${socketURL}?chatId=${chat.id}`)
+  // })
 
   const otherUser =
     chat.member1Id == currentUser.id ? chat.member2 : chat.member1;
@@ -34,6 +54,17 @@ export default function Messenger({ chat, currentUser }) {
   );
 
   useEffect(() => {
+     const connectedSockets = io.length;
+     console.log('Number of connected sockets:', connectedSockets);
+    return () => {
+      // console.log("Disconnecting socket...");
+      socket.disconnect(); // Explicitly disconnect the socket
+      // if (socket.connected) {
+      // }
+    };
+  });
+
+  useEffect(() => {
     msgBoxRef.current.scrollTop = msgBoxRef.current.scrollHeight;
   });
 
@@ -44,12 +75,10 @@ export default function Messenger({ chat, currentUser }) {
     const { data, error } = await createMessageApi(message);
     setLoading(false);
     if (error) return setError(error.response?.data?.message || error.message);
-    setState((prev) => {
-      console.log(prev);
-
-      prev.push(data);
-      return [...prev];
-    });
+    // setState((prev) => {
+    //   prev.push(data);
+    //   return [...prev];
+    // });
     reset();
   };
 

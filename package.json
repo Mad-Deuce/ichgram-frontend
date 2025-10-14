@@ -25,6 +25,7 @@
     "react-router-dom": "^7.8.0",
     "redux": "^5.0.1",
     "redux-persist": "^6.0.0",
+    "socket.io-client": "^4.8.1",
     "yup": "^1.7.0",
     "yup-password": "^0.4.0"
   },

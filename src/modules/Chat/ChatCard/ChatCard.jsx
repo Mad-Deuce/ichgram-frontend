@@ -16,7 +16,7 @@ export default function ChatCard({ chat, active, handleClick, currentUser }) {
       onClick={() => handleClick(chat)}
     >
       <div className={styles.avatarWrapper}>
-        <img src={`${baseURL}/${otherUser.avatar}`} alt="" />
+        <img src={`${baseURL}/${otherUser.avatar}`} alt="" className={styles.avatar}/>
       </div>
       <div className={styles.infoWrapper}>
         <p className={styles.username}>{otherUser.username}</p>

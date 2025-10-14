@@ -7,7 +7,7 @@ export default function Message({ message, isMy }) {
     <div className={`${styles.message} ${isMy && styles.right}`}>
       <div className={styles.avatarWrapper}>
         <img
-          src={`${baseURL}/${message.author.avatar}`}
+          src={`${baseURL}/${message.author?.avatar}`}
           alt=""
           className={styles.avatar}
         />
