@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { showModal } from "/src/redux/modal/modal-slice";
@@ -14,7 +14,7 @@ import Card from "./Card/Card";
 import styles from "./Posts.module.css";
 
 export default function Posts({ posts = [] }) {
-  const [state, setState] = useState(posts);
+  // const [state, setState] = useState(posts);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
@@ -24,10 +24,6 @@ export default function Posts({ posts = [] }) {
   const showPost = (postId) => {
     dispatch(showModal({ type: "Post", id: postId }));
   };
-
-  useEffect(() => {
-    setState(posts);
-  }, [posts]);
 
   const sendComment = async (comment) => {
     setLoading(true);
@@ -43,13 +39,10 @@ export default function Posts({ posts = [] }) {
     }, 5000);
     const post = posts.find((item) => item.id === data?.comment.postId);
     if (post) {
-      setState((prev) => {
-        post.totalComments += 1;
-        if (!post.comments) post.comments = [];
-        post.comments.unshift(data?.comment);
-        post.comments = post.comments.slice(0, 4);
-        return [...prev];
-      });
+      post.totalComments += 1;
+      if (!post.comments) post.comments = [];
+      post.comments.unshift(data?.comment);
+      post.comments = post.comments.slice(0, 4);
     }
   };
 
@@ -67,11 +60,8 @@ export default function Posts({ posts = [] }) {
     }, 5000);
     const post = posts.find((item) => item.id === data?.like.postId);
     if (post) {
-      setState((prev) => {
-        post.totalLikes = Number(post.totalLikes) + 1;
-        post.isLiked = true;
-        return [...prev];
-      });
+      post.totalLikes = Number(post.totalLikes) + 1;
+      post.isLiked = true;
     }
   };
 
@@ -87,17 +77,14 @@ export default function Posts({ posts = [] }) {
     setTimeout(() => {
       setMessage(null);
     }, 5000);
-    setState((prev) => {
-      prev.map((post) => {
-        if (post.user.id === data.follow.targetUserId)
-          post.user.followers.push(data.follow);
-        return post;
-      });
-      return prev;
+    posts.map((post) => {
+      if (post.user.id === data.follow.targetUserId)
+        post.user.followers.push(data.follow);
+      return post;
     });
   };
 
-  const elements = state.map((post) => (
+  const elements = posts.map((post) => (
     <Card
       key={post.id}
       post={post}
