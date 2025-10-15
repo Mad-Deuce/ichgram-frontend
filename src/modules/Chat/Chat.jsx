@@ -14,6 +14,9 @@ export default function Chat({ chats, initChat }) {
 
   useEffect(() => {
     setActiveChat(initChat);
+    if (!initChat) return;
+    if (chats.some((item) => item.id === initChat.id)) return;
+    chats.push(initChat);
   }, [initChat]);
 
   const handleClickOnChat = (chat) => {
@@ -24,7 +27,7 @@ export default function Chat({ chats, initChat }) {
     <ChatCard
       key={chat.id}
       chat={chat}
-      active={chat.id === activeChat?.id ? true : false}
+      active={chat?.id === activeChat?.id ? true : false}
       handleClick={handleClickOnChat}
       currentUser={currentUser}
     />
