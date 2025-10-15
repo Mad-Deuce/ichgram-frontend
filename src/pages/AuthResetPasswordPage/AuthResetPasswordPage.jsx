@@ -9,9 +9,10 @@ import { selectAuth } from "/src/redux/auth/auth-selectors";
 import styles from "./AuthResetPasswordPage.module.css";
 
 export default function AuthResetPasswordPage() {
-  let [searchParams] = useSearchParams();
+  const [searchParams, _] = useSearchParams();
   const { loading, error, message } = useSelector(selectAuth);
-  const token = error ? null : searchParams.get("token");
+  const token = searchParams.get("token");
+  // const token = error ? null : searchParams.get("token");
   const dispatch = useDispatch();
 
   const handleOnSubmitEmail = async (values) => {
