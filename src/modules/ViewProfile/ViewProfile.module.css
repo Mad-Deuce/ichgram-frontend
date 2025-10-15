@@ -10,11 +10,12 @@
 }
 
 .avatarWrapper{
-  max-width: 100%;
-  max-height: 100%;
+  width: 150px;
+  height: 150px;
 }
 .avatar{
-  max-width: 100%;
+  width: 100%;
+  max-height: 100%;
   object-fit: cover;
   border-radius: 50%;
   /* aspect-ratio: 1/1; */
