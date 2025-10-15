@@ -47,3 +47,20 @@
   max-width: 100%;
   max-height: 100%;
 }
+
+.logout {
+  width: min-content;
+  margin: 1rem;
+  background-color: #fff;
+  border: none;
+  margin-top: 3rem;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: red;
+  cursor: pointer;
+  
+}
+.logout:hover {
+  filter: brightness(0.95);
+}

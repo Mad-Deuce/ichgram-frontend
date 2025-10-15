@@ -1,7 +1,8 @@
 import { Link, NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { selectUser } from "/src/redux/auth/auth-selectors";
+import { logoutUser } from "/src/redux/auth/auth-thunks";
 
 import menuItems from "./menuItems.js";
 
@@ -17,6 +18,7 @@ export default function Menu({
 }) {
   const fullClassName = `${styles.menu} ${className} ${styles[variant]}`;
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
 
   const handleOnClick = (link, title) => {
     if (link) {
@@ -24,6 +26,10 @@ export default function Menu({
     } else {
       toggleModal(title);
     }
+  };
+
+  const handleOnLogoutClick = () => {
+    dispatch(logoutUser());
   };
 
   const elements = menuItems.map(({ title, icon, link }) => {
@@ -58,6 +64,9 @@ export default function Menu({
 
         <p className={styles.title}>Profile</p>
       </Link>
+      <button className={styles.logout} onClick={handleOnLogoutClick}>
+        <p className={styles.title}>LOGOUT</p>
+      </button>
     </ul>
   );
 }
