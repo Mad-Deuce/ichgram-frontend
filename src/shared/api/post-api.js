@@ -20,3 +20,7 @@ export const findPostsApi = fetchDecorator((payload) => {
 export const getPostByIdApi = fetchDecorator((payload) => {
     return instance.get(`posts/${payload}`)
 });
+
+export const deletePostByIdApi = fetchDecorator((payload) => {
+    return instance.delete(`posts/${payload}`)
+});

@@ -1,8 +1,10 @@
 import { useCallback, useState } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+
+import { hideModal } from "/src/redux/modal/modal-slice";
 
 import useFetch from "/src/shared/hooks/temp/useFetch";
 import { getPostByIdApi } from "/src/shared/api/post-api";
@@ -15,6 +17,7 @@ import { toNotificationFormat } from "/src/shared/utils/dateFormat";
 
 import TextEditor from "/src/shared/components/TextEditor/TextEditor";
 import LoadingErrorOutput from "/src/shared/components/LoadingErrorOutput/LoadingErrorOutput";
+import Dialog from "/src/shared/components/Dialog/Dialog";
 
 import {
   AdditionalIcon,
@@ -25,6 +28,7 @@ import {
 import { fields, commentSchema } from "./fields";
 
 import styles from "./ViewPost.module.css";
+import { deletePostByIdApi } from "../../shared/api/post-api";
 
 const { VITE_API_URL: baseURL } = import.meta.env;
 
@@ -33,6 +37,9 @@ export default function ViewPost({ postId }) {
     resolver: yupResolver(commentSchema),
     mode: "onChange",
   });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const getPostByIdApiCallback = useCallback(
     () => getPostByIdApi(postId),
     [postId]
@@ -48,7 +55,8 @@ export default function ViewPost({ postId }) {
   const isPostUserFollowed = postData?.post?.user?.followers.some(
     (follow) => follow.followerUserId === currentUser.id
   );
-  // const [state, setState] = useState(posts);
+  const [dialogShow, setDialogShow] = useState(false);
+  const [reset, setReset] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [_message, setMessage] = useState(null);
@@ -79,6 +87,7 @@ export default function ViewPost({ postId }) {
         post.comments = post.comments.slice(0, 4);
         return { ...prev };
       });
+      setReset((prev) => !prev);
     }
   };
 
@@ -127,6 +136,14 @@ export default function ViewPost({ postId }) {
       });
       return prev;
     });
+  };
+
+  const deletePost = async () => {
+    dispatch(hideModal());
+    const { data, error } = await deletePostByIdApi(postId);
+    if (error) alert(error.response?.data?.message || error.message);
+    alert(data.message);
+    navigate("/");
   };
 
   const commentElements = postData?.post?.comments?.map((comment) => {
@@ -203,8 +220,12 @@ export default function ViewPost({ postId }) {
                 </>
               )}
           </div>
-
-          <AdditionalIcon className={styles.additionalIcon} />
+          <button
+            className={styles.additionalBtn}
+            onClick={() => setDialogShow(true)}
+          >
+            <AdditionalIcon className={styles.additionalIcon} />
+          </button>
         </div>
         <div className={styles.comments}>{commentElements}</div>
         <div className={styles.icons}>
@@ -233,13 +254,16 @@ export default function ViewPost({ postId }) {
           onSubmit={handleSubmit(sendComment)}
           className={styles.inputWrapper}
         >
-          <TextEditor register={register} {...fields.comment} />
+          <TextEditor register={register} {...fields.comment} reset={reset} />
           <button type="submit" className={styles.btn}>
             Send
           </button>
         </form>
         <LoadingErrorOutput error={error} loading={loading} />
       </div>
+      {dialogShow && (
+        <Dialog setDialogShow={setDialogShow} deletePost={deletePost} />
+      )}
     </div>
   );
 }
