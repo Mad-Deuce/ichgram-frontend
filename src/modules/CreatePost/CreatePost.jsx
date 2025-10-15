@@ -7,7 +7,6 @@ import TextEditor from "/src/shared/components/TextEditor/TextEditor";
 import LoadingErrorOutput from "/src/shared/components/LoadingErrorOutput/LoadingErrorOutput";
 
 import { createPostApi } from "/src/shared/api/post-api";
-import useFetch from "/src/shared/hooks/useFetch";
 
 import { fields, createPostSchema } from "./fields";
 
@@ -16,13 +15,19 @@ import styles from "./CreatePost.module.css";
 export default function CreatePostForm() {
   const { register, handleSubmit, setValue } = useForm({
     resolver: yupResolver(createPostSchema),
-    mode: "onChange",
   });
-  const { state, loading, error, fetchData } = useFetch();
+  const [message, setMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [reset, setReset] = useState(false);
 
-  const onSubmit = async (values) => {
-    fetchData(() => createPostApi(values));
+  const handleOnSubmit = async (values) => {
+    setError(null);
+    setLoading(true);
+    const { data, error } = await createPostApi(values);
+    setLoading(false);
+    if (error) return setError(error.response?.data?.message || error.message);
+    setMessage(data.message);
     setReset((prev) => !prev);
   };
 
@@ -33,7 +38,11 @@ export default function CreatePostForm() {
         event.stopPropagation();
       }}
     >
-      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+      <form
+        onSubmit={handleSubmit(handleOnSubmit)}
+        className={styles.form}
+        id="postForm"
+      >
         <div className={styles.header}>
           <h1 className={styles.title}>Create new post</h1>
           <button type="submit" className={styles.submit}>
@@ -42,10 +51,10 @@ export default function CreatePostForm() {
         </div>
         <div className={styles.uploadWrapper}>
           <Upload
-            register={register}
             {...fields.image}
             setValue={setValue}
             reset={reset}
+            form="postForm"
           />
         </div>
         <div className={styles.textEditorWrapper}>
@@ -55,7 +64,7 @@ export default function CreatePostForm() {
           <LoadingErrorOutput
             loading={loading}
             error={error}
-            message={`${state?.message}: ${state?.post?.content}`}
+            message={`${message}`}
           />
         </div>
       </form>

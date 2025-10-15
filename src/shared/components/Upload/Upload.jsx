@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import styles from "./Upload.module.css";
 
 export default function Upload({
   className,
-  register = () => {},
   name,
   setValue,
   reset = true,
@@ -12,21 +11,22 @@ export default function Upload({
 }) {
   const fullClassName = `${styles.upload} ${className}`;
 
-  const [fileSrc, setFileSrc] = useState(null);
+  const imageRef = useRef(null);
 
   useEffect(() => {
-    setFileSrc(null);
+    imageRef.current.src = null;
   }, [reset]);
 
   const handleOnFileUploadChange = (event) => {
-    const fileSrc = URL.createObjectURL(event.target.files[0]);
-    setFileSrc(fileSrc);
-    setValue(name, event.target.files[0]);
+    const file = event.target.files[0];
+    imageRef.current.src = URL.createObjectURL(file);
+
+    setValue(name, file);
   };
 
   return (
     <div className={fullClassName}>
-      {fileSrc && <img src={fileSrc} alt="" className={styles.preview} />}
+      <img src={null} alt="" className={styles.preview} ref={imageRef} />
       <div className={styles.modal}>
         <img
           src="/src/assets/icons/upload.svg"
@@ -35,7 +35,6 @@ export default function Upload({
         />
 
         <input
-          {...register(name)}
           {...props}
           onChange={handleOnFileUploadChange}
           className={styles.input}
