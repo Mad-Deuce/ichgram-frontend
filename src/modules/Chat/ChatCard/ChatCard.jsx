@@ -7,8 +7,12 @@ const { VITE_API_URL: baseURL } = import.meta.env;
 export default function ChatCard({ chat, active, handleClick, currentUser }) {
   const otherUser =
     chat.member1Id === currentUser.id ? chat.member2 : chat.member1;
+  console.log(otherUser?.messages);
 
-  const lastMessageDate = otherUser.messages[0]?.updatedAt;
+  let lastMessageDate = null;
+  if (otherUser?.messages && Array.isArray(otherUser?.messages)) {
+    lastMessageDate = otherUser?.messages[0]?.updatedAt;
+  }
 
   return (
     <button
@@ -16,7 +20,11 @@ export default function ChatCard({ chat, active, handleClick, currentUser }) {
       onClick={() => handleClick(chat)}
     >
       <div className={styles.avatarWrapper}>
-        <img src={`${baseURL}/${otherUser.avatar}`} alt="" className={styles.avatar}/>
+        <img
+          src={`${baseURL}/${otherUser.avatar}`}
+          alt=""
+          className={styles.avatar}
+        />
       </div>
       <div className={styles.infoWrapper}>
         <p className={styles.username}>{otherUser.username}</p>

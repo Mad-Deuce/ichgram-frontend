@@ -2,19 +2,25 @@ import items from "./items";
 
 import styles from "./Dialog.module.css";
 
-export default function Dialog({ className, setDialogShow, deletePost }) {
+export default function Dialog({
+  className,
+  setDialogShow,
+  deletePost,
+  closePost,
+}) {
   const fullClassName = `${styles.dialog} ${className}`;
 
-  const handleClick = () => {
+  const handleClick = (action) => {
     setDialogShow(false);
-    deletePost();
+    if (action === "delete") deletePost();
+    if (action === "cancel") closePost();
   };
 
   const elements = items.map((item) => (
-    <li className={styles.item}>
+    <li key={item.title} className={styles.item}>
       <button
         className={`${styles.btn} ${item.attention && styles.attention}`}
-        onClick={handleClick}
+        onClick={() => handleClick(item.action)}
       >
         {item.title}
       </button>

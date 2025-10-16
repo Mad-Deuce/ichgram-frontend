@@ -1,7 +1,8 @@
 const items = [
     {
         title: "Delete",
-        attention: true
+        attention: true,
+        action: "delete"
     },
     {
         title: "Edit",
@@ -14,6 +15,7 @@ const items = [
     },
     {
         title: "Cancel",
+        action: "cancel"
     },
 ]
 

@@ -128,17 +128,24 @@ export default function ViewPost({ postId }) {
     setTimeout(() => {
       setMessage(null);
     }, 5000);
+    const post = postData.post;
+
     setState((prev) => {
-      prev.map((post) => {
+      // prev.map((post) => {
         if (post.user.id === data.follow.targetUserId)
           post.user.followers.push(data.follow);
-        return post;
-      });
-      return prev;
+        // return post;
+      // });
+      return {...prev};
     });
   };
 
+  const closePost = async () => {
+    dispatch(hideModal());
+  };
+
   const deletePost = async () => {
+    if (postData?.post?.user?.id !== currentUser.id) return
     dispatch(hideModal());
     const { data, error } = await deletePostByIdApi(postId);
     if (error) alert(error.response?.data?.message || error.message);
@@ -262,7 +269,7 @@ export default function ViewPost({ postId }) {
         <LoadingErrorOutput error={error} loading={loading} />
       </div>
       {dialogShow && (
-        <Dialog setDialogShow={setDialogShow} deletePost={deletePost} />
+        <Dialog setDialogShow={setDialogShow} deletePost={deletePost} closePost={closePost} />
       )}
     </div>
   );
