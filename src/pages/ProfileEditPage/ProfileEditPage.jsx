@@ -1,41 +1,45 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import EditProfile from "/src/modules/EditProfile/EditProfile";
 
 import LoadingErrorOutput from "/src/shared/components/LoadingErrorOutput/LoadingErrorOutput";
 
+import { selectAuth } from "/src/redux/auth/auth-selectors";
+import { updateUser } from "/src/redux/auth/auth-thunks";
 import useFetch from "/src/shared/hooks/temp/useFetch";
-import { getUserByIdApi, updateUserApi } from "/src/shared/api/user-api";
+import { getUserByIdApi } from "/src/shared/api/user-api";
 
 import styles from "./ProfileEditPage.module.css";
 
 export default function ProfileEditPage() {
+  const dispatch = useDispatch();
   const profileId = useParams().id;
+  const {
+    error: authError,
+    loading: authLoading,
+    user,
+  } = useSelector(selectAuth);
   const getUserByIdApiCallback = useCallback(
     () => getUserByIdApi(profileId),
     [profileId]
   );
-  const { state, setState, error, setError, loading, setLoading } = useFetch(
+  const { state,  error,  loading } = useFetch(
     getUserByIdApiCallback,
     null
   );
-  const [message, setMessage] = useState(null);
 
   const updateProfile = async (payload) => {
-    setError(null);
-    setLoading(true);
-    const { data, error } = await updateUserApi(payload);
-    setLoading(false);
-    if (error) return setError(error.response?.data?.message || error.message);
-    setMessage(data?.message);
-    setState(data);
-    console.log(data);
+    dispatch(updateUser(payload));
   };
 
   return (
     <div className={styles.profileEditPage}>
-      <LoadingErrorOutput error={error} loading={loading} message={message} />
+      <LoadingErrorOutput
+        error={error | authError}
+        loading={loading | authLoading}
+      />
       <EditProfile user={state?.user} updateProfile={updateProfile} />
     </div>
   );
