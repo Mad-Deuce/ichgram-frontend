@@ -1,12 +1,15 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useDispatch } from "react-redux";
 
 import Upload from "/src/shared/components/Upload/Upload";
 import TextEditor from "/src/shared/components/TextEditor/TextEditor";
 import LoadingErrorOutput from "/src/shared/components/LoadingErrorOutput/LoadingErrorOutput";
 
 import { createPostApi } from "/src/shared/api/post-api";
+import { hideModal } from "/src/redux/modal/modal-slice";
+
 
 import { fields, createPostSchema } from "./fields";
 
@@ -20,6 +23,7 @@ export default function CreatePostForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [reset, setReset] = useState(false);
+  const dispatch = useDispatch();
 
   const handleOnSubmit = async (values) => {
     setError(null);
@@ -29,6 +33,11 @@ export default function CreatePostForm() {
     if (error) return setError(error.response?.data?.message || error.message);
     setMessage(data.message);
     setReset((prev) => !prev);
+    closePost();
+  };
+
+  const closePost = () => {
+    dispatch(hideModal());
   };
 
   return (
