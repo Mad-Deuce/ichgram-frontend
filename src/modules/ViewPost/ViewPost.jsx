@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -7,11 +7,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { hideModal } from "/src/redux/modal/modal-slice";
 
 import useRequest from "/src/shared/hooks/temp/useRequest";
-import useFetch from "/src/shared/hooks/temp/useFetch";
 import { getPostByIdApi } from "/src/shared/api/post-api";
 import { createCommentApi } from "/src/shared/api/comment-api";
 import { likePostApi } from "/src/shared/api/like-api";
-import { followUserApi } from "../../shared/api/follow-api";
+import { followUserApi } from "/src/shared/api/follow-api";
+import { deletePostByIdApi } from "/src/shared/api/post-api";
 
 import { selectUser } from "/src/redux/auth/auth-selectors";
 import { toNotificationFormat } from "/src/shared/utils/dateFormat";
@@ -29,7 +29,6 @@ import {
 import { fields, commentSchema } from "./fields";
 
 import styles from "./ViewPost.module.css";
-import { deletePostByIdApi } from "../../shared/api/post-api";
 
 const { VITE_API_URL: baseURL } = import.meta.env;
 
@@ -41,36 +40,35 @@ export default function ViewPost({ postId }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const getPostByIdApiCallback = useCallback(
-    () => getPostByIdApi(postId),
-    [postId]
-  );
-  const {
-    state: postData,
-    setState: setPostData,
-  } = useFetch(getPostByIdApiCallback, null);
   const { loading, error, message, sendRequest } = useRequest();
   const [render, setRender] = useState(true);
+  const [post, setPost] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const { post } = await sendRequest(() => getPostByIdApi(postId));
+      setPost(post);
+    };
+    fetchData();
+  }, []);
 
   const currentUser = useSelector(selectUser);
-  const isPostUserFollowed = postData?.post?.user?.followers.some(
+  const isPostUserFollowed = post?.user?.followers.some(
     (follow) => follow.followerUserId === currentUser.id
   );
   const [dialogShow, setDialogShow] = useState(false);
   const [reset, setReset] = useState(false);
 
-
   const sendComment = async (comment) => {
     const { comment: createdComment } = await sendRequest(() =>
       createCommentApi({
-        postId: postData.post.id,
+        postId: post.id,
         text: comment.comment,
       })
     );
     setRender((prev) => !prev);
-    const { post } = postData;
     if (post) {
-      setPostData((prev) => {
+      setPost((prev) => {
         if (!post?.totalComments) post.totalComments = 0;
         post.totalComments += 1;
         if (!post.comments) post.comments = [];
@@ -82,12 +80,11 @@ export default function ViewPost({ postId }) {
   };
 
   const likePost = async (postId) => {
-    if (postData.post.isLiked) return;
+    if (post.isLiked) return;
     await sendRequest(() => likePostApi({ postId }));
     setRender((prev) => !prev);
-    const { post } = postData;
     if (post) {
-      setPostData((prev) => {
+      setPost((prev) => {
         if (!post?.totalLikes) post.totalLikes = 0;
         post.totalLikes = Number(post.totalLikes) + 1;
         post.isLiked = true;
@@ -99,8 +96,7 @@ export default function ViewPost({ postId }) {
   const followUser = async (targetUserId) => {
     const { follow } = await sendRequest(() => followUserApi({ targetUserId }));
     setRender((prev) => !prev);
-    const { post } = postData;
-    setPostData((prev) => {
+    setPost((prev) => {
       if (post.user.id === follow.targetUserId)
         post.user.followers.push(follow);
       return { ...prev };
@@ -112,15 +108,14 @@ export default function ViewPost({ postId }) {
   };
 
   const deletePost = async () => {
-    if (postData?.post?.user?.id !== currentUser.id) return;
+    if (post?.user?.id !== currentUser.id) return;
     dispatch(hideModal());
-    const { data, error } = await deletePostByIdApi(postId);
-    if (error) alert(error.response?.data?.message || error.message);
+    const data = await sendRequest(() => deletePostByIdApi(postId));
     alert(data.message);
     navigate("/");
   };
 
-  const commentElements = postData?.post?.comments?.map((comment) => {
+  const commentElements = post?.comments?.map((comment) => {
     return (
       <div key={comment.id} className={styles.comment}>
         <Link
@@ -156,7 +151,7 @@ export default function ViewPost({ postId }) {
     >
       <div className={styles.imageWrapper}>
         <img
-          src={`${baseURL}/${postData?.post?.image}`}
+          src={`${baseURL}/${post?.image}`}
           alt=""
           className={styles.image}
         />
@@ -165,34 +160,30 @@ export default function ViewPost({ postId }) {
         <div className={styles.header}>
           <div className={styles.headerLeft}>
             <Link
-              to={`/profile/${postData?.post?.user?.id}`}
+              to={`/profile/${post?.user?.id}`}
               className={styles.avatarWrapper}
             >
               <img
-                src={`${baseURL}/${postData?.post?.user?.avatar}`}
+                src={`${baseURL}/${post?.user?.avatar}`}
                 alt=""
                 className={styles.avatar}
               />
             </Link>
-            <Link
-              to={`/profile/${postData?.post?.user?.id}`}
-              className={styles.username}
-            >
-              {postData?.post?.user?.username}
+            <Link to={`/profile/${post?.user?.id}`} className={styles.username}>
+              {post?.user?.username}
             </Link>
 
-            {!isPostUserFollowed &&
-              postData?.post?.user?.id !== currentUser.id && (
-                <>
-                  <span className={styles.username}>&bull;</span>
-                  <button
-                    className={styles.btn}
-                    onClick={() => followUser(postData?.post?.user?.id)}
-                  >
-                    Subscribe
-                  </button>
-                </>
-              )}
+            {!isPostUserFollowed && post?.user?.id !== currentUser.id && (
+              <>
+                <span className={styles.username}>&bull;</span>
+                <button
+                  className={styles.btn}
+                  onClick={() => followUser(post?.user?.id)}
+                >
+                  Subscribe
+                </button>
+              </>
+            )}
           </div>
           <button
             className={styles.additionalBtn}
@@ -203,14 +194,9 @@ export default function ViewPost({ postId }) {
         </div>
         <div className={styles.comments}>{commentElements}</div>
         <div className={styles.icons}>
-          <button
-            className={styles.iconBtn}
-            onClick={() => likePost(postData?.post?.id)}
-          >
+          <button className={styles.iconBtn} onClick={() => likePost(post?.id)}>
             <LikeIcon
-              className={`${styles.icon} ${
-                postData?.post?.isLiked && styles.filled
-              }`}
+              className={`${styles.icon} ${post?.isLiked && styles.filled}`}
             />
           </button>
 
@@ -218,10 +204,10 @@ export default function ViewPost({ postId }) {
         </div>
         <div className={styles.statsWrapper}>
           <span className={styles.stats}>{`${
-            postData?.post?.totalLikes ? postData?.post?.totalLikes : 0
+            post?.totalLikes ? post?.totalLikes : 0
           } likes`}</span>
           <span className={styles.stats}>{`${
-            postData?.post?.totalComments ? postData?.post?.totalComments : 0
+            post?.totalComments ? post?.totalComments : 0
           } comments`}</span>
         </div>
         <form
