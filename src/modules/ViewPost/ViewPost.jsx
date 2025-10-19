@@ -48,8 +48,6 @@ export default function ViewPost({ postId }) {
   const {
     state: postData,
     setState: setPostData,
-    // error: postError,
-    // loading: postLoading,
   } = useFetch(getPostByIdApiCallback, null);
   const { loading, error, message, sendRequest } = useRequest();
   const [render, setRender] = useState(true);
@@ -60,9 +58,7 @@ export default function ViewPost({ postId }) {
   );
   const [dialogShow, setDialogShow] = useState(false);
   const [reset, setReset] = useState(false);
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState(null);
-  // const [_message, setMessage] = useState(null);
+
 
   const sendComment = async (comment) => {
     const { comment: createdComment } = await sendRequest(() =>

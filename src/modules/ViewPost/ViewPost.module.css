@@ -14,6 +14,8 @@
   border-top-left-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .infoWrapper {
@@ -69,7 +71,7 @@
 }
 
 .comments {
-  max-height: 500px;
+  /* max-height: 500px; */
   max-height: 200px;
   padding-bottom: 4rem;
   overflow-y: auto;
