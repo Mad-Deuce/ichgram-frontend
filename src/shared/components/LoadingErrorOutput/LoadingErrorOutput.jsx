@@ -7,6 +7,8 @@ export default function LoadingErrorOutput({
   loading,
   error,
   message,
+  render,
+  timeout = 5000,
 }) {
   const fullClassName = `${styles.loadingErrorOutput} ${className}`;
 
@@ -14,16 +16,12 @@ export default function LoadingErrorOutput({
 
   useEffect(() => {
     setLocalMessage(message);
-    console.log(message);
-
     if (!message) return;
-
     const t = setTimeout(() => {
       setLocalMessage(null);
-    }, 5000);
-
+    }, timeout);
     return () => clearTimeout(t);
-  }, [message]);
+  }, [message, render, timeout]);
 
   return (
     <div className={fullClassName}>

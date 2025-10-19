@@ -1,4 +1,5 @@
 import { useDispatch } from "react-redux";
+import { useState } from "react";
 
 import { showModal } from "/src/redux/modal/modal-slice";
 
@@ -16,6 +17,7 @@ import styles from "./Posts.module.css";
 
 export default function Posts({ posts = [] }) {
   const dispatch = useDispatch();
+  const [render, setRender] = useState(true);
   const { loading, error, message, sendRequest } = useRequest();
 
   const showPost = (postId) => {
@@ -26,6 +28,7 @@ export default function Posts({ posts = [] }) {
     const { comment: createdComment } = await sendRequest(() =>
       createCommentApi(comment)
     );
+    setRender((prev) => !prev);
     const post = posts.find((item) => item.id === createdComment.postId);
     if (post) {
       post.totalComments += 1;
@@ -71,6 +74,7 @@ export default function Posts({ posts = [] }) {
         loading={loading}
         error={error}
         message={message}
+        render={render}
         className={styles.message}
       />
     </>
