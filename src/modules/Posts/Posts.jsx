@@ -40,6 +40,7 @@ export default function Posts({ posts = [] }) {
 
   const likePost = async (postId) => {
     const data = await sendRequest(() => likePostApi({ postId }));
+    setRender((prev) => !prev);
     const post = posts.find((item) => item.id === data?.like.postId);
     if (post) {
       post.totalLikes = Number(post.totalLikes) + 1;
@@ -49,6 +50,7 @@ export default function Posts({ posts = [] }) {
 
   const followUser = async (targetUserId) => {
     const data = await sendRequest(() => followUserApi({ targetUserId }));
+    setRender((prev) => !prev);
     posts.map((post) => {
       if (post.user.id === data.follow.targetUserId)
         post.user.followers.push(data.follow);
