@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { hideModal } from "/src/redux/modal/modal-slice";
 
+import useRequest from "/src/shared/hooks/temp/useRequest";
 import useFetch from "/src/shared/hooks/temp/useFetch";
 import { getPostByIdApi } from "/src/shared/api/post-api";
 import { createCommentApi } from "/src/shared/api/comment-api";
@@ -46,10 +47,12 @@ export default function ViewPost({ postId }) {
   );
   const {
     state: postData,
-    setState,
+    setState: setPostData,
     // error: postError,
     // loading: postLoading,
   } = useFetch(getPostByIdApiCallback, null);
+  const { loading, error, message, sendRequest } = useRequest();
+  const [render, setRender] = useState(true);
 
   const currentUser = useSelector(selectUser);
   const isPostUserFollowed = postData?.post?.user?.followers.some(
@@ -57,34 +60,25 @@ export default function ViewPost({ postId }) {
   );
   const [dialogShow, setDialogShow] = useState(false);
   const [reset, setReset] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [_message, setMessage] = useState(null);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(null);
+  // const [_message, setMessage] = useState(null);
 
   const sendComment = async (comment) => {
-    setLoading(true);
-    setError(null);
-    const { data, error } = await createCommentApi({
-      postId: postData.post.id,
-      text: comment.comment,
-    });
-    setLoading(false);
-    if (error) {
-      return setError(error.response?.data?.message || error.message);
-    }
-    setMessage(data.message);
-    setTimeout(() => {
-      setMessage(null);
-    }, 5000);
-    const post = postData.post;
+    const { comment: createdComment } = await sendRequest(() =>
+      createCommentApi({
+        postId: postData.post.id,
+        text: comment.comment,
+      })
+    );
+    setRender((prev) => !prev);
+    const { post } = postData;
     if (post) {
-      setState((prev) => {
+      setPostData((prev) => {
         if (!post?.totalComments) post.totalComments = 0;
-
         post.totalComments += 1;
         if (!post.comments) post.comments = [];
-        post.comments.unshift(data?.comment);
-        post.comments = post.comments.slice(0, 4);
+        post.comments.unshift(createdComment);
         return { ...prev };
       });
       setReset((prev) => !prev);
@@ -93,22 +87,12 @@ export default function ViewPost({ postId }) {
 
   const likePost = async (postId) => {
     if (postData.post.isLiked) return;
-    setLoading(true);
-    setError(null);
-    const { data, error } = await likePostApi({ postId });
-    setLoading(false);
-    if (error) {
-      return setError(error.response?.data?.message || error.message);
-    }
-    setMessage(data.message);
-    setTimeout(() => {
-      setMessage(null);
-    }, 5000);
-    const post = postData.post;
+    await sendRequest(() => likePostApi({ postId }));
+    setRender((prev) => !prev);
+    const { post } = postData;
     if (post) {
-      setState((prev) => {
+      setPostData((prev) => {
         if (!post?.totalLikes) post.totalLikes = 0;
-
         post.totalLikes = Number(post.totalLikes) + 1;
         post.isLiked = true;
         return { ...prev };
@@ -117,26 +101,13 @@ export default function ViewPost({ postId }) {
   };
 
   const followUser = async (targetUserId) => {
-    setLoading(true);
-    setError(null);
-    const { data, error } = await followUserApi({ targetUserId });
-    setLoading(false);
-    if (error) {
-      return setError(error.response?.data?.message || error.message);
-    }
-    setMessage(data.message);
-    setTimeout(() => {
-      setMessage(null);
-    }, 5000);
-    const post = postData.post;
-
-    setState((prev) => {
-      // prev.map((post) => {
-        if (post.user.id === data.follow.targetUserId)
-          post.user.followers.push(data.follow);
-        // return post;
-      // });
-      return {...prev};
+    const { follow } = await sendRequest(() => followUserApi({ targetUserId }));
+    setRender((prev) => !prev);
+    const { post } = postData;
+    setPostData((prev) => {
+      if (post.user.id === follow.targetUserId)
+        post.user.followers.push(follow);
+      return { ...prev };
     });
   };
 
@@ -145,7 +116,7 @@ export default function ViewPost({ postId }) {
   };
 
   const deletePost = async () => {
-    if (postData?.post?.user?.id !== currentUser.id) return
+    if (postData?.post?.user?.id !== currentUser.id) return;
     dispatch(hideModal());
     const { data, error } = await deletePostByIdApi(postId);
     if (error) alert(error.response?.data?.message || error.message);
@@ -266,10 +237,19 @@ export default function ViewPost({ postId }) {
             Send
           </button>
         </form>
-        <LoadingErrorOutput error={error} loading={loading} />
+        <LoadingErrorOutput
+          error={error}
+          loading={loading}
+          message={message}
+          render={render}
+        />
       </div>
       {dialogShow && (
-        <Dialog setDialogShow={setDialogShow} deletePost={deletePost} closePost={closePost} />
+        <Dialog
+          setDialogShow={setDialogShow}
+          deletePost={deletePost}
+          closePost={closePost}
+        />
       )}
     </div>
   );

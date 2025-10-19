@@ -1,7 +1,9 @@
 import { useState } from "react";
 
-const useRequest = (initialState = null) => {
-  const [state, setState] = useState(initialState);
+const useRequest = (
+  // initialState = null
+) => {
+  // const [state, setState] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
@@ -18,7 +20,9 @@ const useRequest = (initialState = null) => {
     return data;
   };
 
-  return { state, setState, loading, setLoading, error, setError, message, setMessage, sendRequest};
+  return { 
+    // state, setState, 
+    loading, setLoading, error, setError, message, setMessage, sendRequest};
 };
 
 export default useRequest;

@@ -70,7 +70,9 @@
 
 .comments {
   max-height: 500px;
+  max-height: 200px;
   padding-bottom: 4rem;
+  overflow-y: auto;
 }
 .comment {
   padding: 1rem;

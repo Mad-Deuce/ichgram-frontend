@@ -5,11 +5,11 @@ import { showModal } from "/src/redux/modal/modal-slice";
 
 import LoadingErrorOutput from "/src/shared/components/LoadingErrorOutput/LoadingErrorOutput";
 
-import useRequest from "../../shared/hooks/temp/useRequest";
+import useRequest from "/src/shared/hooks/temp/useRequest";
 
 import { createCommentApi } from "/src/shared/api/comment-api";
 import { likePostApi } from "/src/shared/api/like-api";
-import { followUserApi } from "../../shared/api/follow-api";
+import { followUserApi } from "/src/shared/api/follow-api";
 
 import Card from "./Card/Card";
 
