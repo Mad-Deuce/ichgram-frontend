@@ -36,7 +36,10 @@ export default function Messenger({ chat, currentUser }) {
   );
 
   useEffect(() => {
-    const socket = io.connect(`${socketURL}?chatId=${chat.id}`);
+    const socket = io(`${socketURL}`, {
+      query: { chatId: chat.id },
+      withCredentials: true,
+    });
     socket.on("connect", function () {
       console.log("Socket connected", socket.connected);
     });
