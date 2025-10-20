@@ -14,7 +14,6 @@ import { followUserApi } from "/src/shared/api/follow-api";
 import { deletePostByIdApi } from "/src/shared/api/post-api";
 
 import { selectUser } from "/src/redux/auth/auth-selectors";
-import { toNotificationFormat } from "/src/shared/utils/dateFormat";
 
 import TextEditor from "/src/shared/components/TextEditor/TextEditor";
 import LoadingErrorOutput from "/src/shared/components/LoadingErrorOutput/LoadingErrorOutput";
@@ -25,6 +24,8 @@ import {
   LikeIcon,
   CommentIcon,
 } from "/src/shared/components/icons";
+
+import CommentCard from "./CommentCard/CommentCard";
 
 import { fields, commentSchema } from "./fields";
 
@@ -116,30 +117,7 @@ export default function ViewPost({ postId }) {
   };
 
   const commentElements = post?.comments?.map((comment) => {
-    return (
-      <div key={comment.id} className={styles.comment}>
-        <Link
-          to={`/profile/${comment?.user?.id}`}
-          className={styles.avatarWrapper}
-        >
-          <img
-            src={`${baseURL}/${comment.user?.avatar}`}
-            alt=""
-            className={styles.avatar}
-          />
-        </Link>
-
-        <div className={styles.commentTextWrapper}>
-          <Link to={`/profile/${comment.user?.id}`} className={styles.username}>
-            {comment?.user?.username}
-          </Link>
-          <span className={styles.commentText}> {comment?.text}</span>
-          <p className={styles.commentDate}>
-            {toNotificationFormat(comment?.updatedAt)}
-          </p>
-        </div>
-      </div>
-    );
+    return <CommentCard key={comment.id} comment={comment} />;
   });
 
   return (
