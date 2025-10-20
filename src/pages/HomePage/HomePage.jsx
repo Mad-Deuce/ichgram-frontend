@@ -1,20 +1,14 @@
-import { useEffect } from "react";
-
 import Posts from "/src/modules/Posts/Posts";
 import LoadingErrorOutput from "/src/shared/components/LoadingErrorOutput/LoadingErrorOutput";
 import { EndIcon } from "/src/shared/components/icons";
 
-import useFetch from "/src/shared/hooks/useFetch";
+import useFetch from "/src/shared/hooks/temp/useFetch";
 import { getLastUpdatedPostsApi } from "../../shared/api/post-api";
 
 import styles from "./HomePage.module.css";
 
 export default function HomePage() {
-  const { state, loading, error, fetchData } = useFetch([]);
-
-  useEffect(() => {
-    fetchData(getLastUpdatedPostsApi);
-  }, []);
+  const { state, loading, error } = useFetch(getLastUpdatedPostsApi, []);
 
   return (
     <div className={styles.homePage}>
