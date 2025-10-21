@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { io } from "socket.io-client";
 
 import LoadingErrorOutput from "/src/shared/components/LoadingErrorOutput/LoadingErrorOutput";
 import TextField from "/src/shared/components/TextField/TextField";
@@ -11,13 +10,13 @@ import {
   getMessagesByChatIdApi,
   createMessageApi,
 } from "/src/shared/api/chat-api";
+import { Socket } from "/src/shared/socket/socket-client";
 
 import Message from "./Message/Message";
 
 import styles from "./Messenger.module.css";
 
-const { VITE_API_URL: baseURL, VITE_WEBSOCKET_URL: socketURL } = import.meta
-  .env;
+const { VITE_API_URL: baseURL } = import.meta.env;
 
 export default function Messenger({ chat, currentUser }) {
   const { register, handleSubmit, reset } = useForm();
@@ -36,10 +35,7 @@ export default function Messenger({ chat, currentUser }) {
   );
 
   useEffect(() => {
-    const socket = io(`${socketURL}`, {
-      query: { chatId: chat.id },
-      withCredentials: true,
-    });
+    const socket = Socket.getInstance();
     socket.on("connect", function () {
       console.log("Socket connected", socket.connected);
     });
