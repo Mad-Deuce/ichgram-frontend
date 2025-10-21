@@ -9,6 +9,13 @@ export const Socket = (function () {
         const socket = io(`${socketURL}`, {
             withCredentials: true,
         });
+        socket.on("connect", function () {
+            console.log("Socket connected", socket.connected);
+        });
+        socket.on('disconnect', () => {
+            console.log('Disconnected from server');
+            console.log("Socket connected", socket.connected);
+        });
         return socket;
     }
 

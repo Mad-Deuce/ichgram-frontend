@@ -36,21 +36,13 @@ export default function Messenger({ chat, currentUser }) {
 
   useEffect(() => {
     const socket = Socket.getInstance();
-    socket.on("connect", function () {
-      console.log("Socket connected", socket.connected);
-    });
     socket.on("newMessage", (newMessage) => {
       setState((prev) => {
         prev.push(newMessage);
         return [...prev];
       });
     });
-
-    return () => {
-      socket.disconnect();
-      console.log("Socket connected", socket.connected);
-    };
-  }, [chat.id]);
+  }, []);
 
   useEffect(() => {
     msgBoxRef.current.scrollTop = msgBoxRef.current.scrollHeight;
