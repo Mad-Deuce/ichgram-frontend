@@ -15,6 +15,7 @@ export const Socket = (function () {
         socket.on('disconnect', () => {
             console.log('Disconnected from server');
             console.log("Socket connected", socket.connected);
+            _instance = null;
         });
         return socket;
     }

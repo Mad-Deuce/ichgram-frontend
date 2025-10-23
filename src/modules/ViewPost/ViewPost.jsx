@@ -51,7 +51,7 @@ export default function ViewPost({ postId }) {
       setPost(post);
     };
     fetchData();
-  }, []);
+  }, [postId]);
 
   const currentUser = useSelector(selectUser);
   const isPostUserFollowed = post?.user?.followers.some(

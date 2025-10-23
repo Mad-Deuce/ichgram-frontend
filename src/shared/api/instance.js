@@ -3,10 +3,12 @@ import { store } from "/src/redux/store.js";
 
 import { refreshTokens } from "/src/redux/auth/auth-thunks";
 
+const { VITE_API_URL: baseURL } = import.meta.env;
 
 
 const instance = axios.create({
-    baseURL: "http://localhost:3000/api",
+    // baseURL: "http://localhost:3000/api",
+    baseURL: `${baseURL}/api`,
     withCredentials: true
 });
 
