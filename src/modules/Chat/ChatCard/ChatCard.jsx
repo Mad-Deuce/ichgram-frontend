@@ -7,7 +7,6 @@ const { VITE_API_URL: baseURL } = import.meta.env;
 export default function ChatCard({ chat, active, handleClick, currentUser }) {
   const otherUser =
     chat.member1Id === currentUser.id ? chat.member2 : chat.member1;
-  console.log(otherUser?.messages);
 
   let lastMessageDate = null;
   if (otherUser?.messages && Array.isArray(otherUser?.messages)) {
